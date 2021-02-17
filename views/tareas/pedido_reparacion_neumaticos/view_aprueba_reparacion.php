@@ -1,3 +1,8 @@
+<style>
+.frm-save {
+    display: none;
+}
+</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
 <h3>Limpieza y revisión inicial <small></small></h3>
@@ -40,14 +45,19 @@
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
 </form>
-
+<div class="frm-new" data-form=""></div>
 <script>
 $('#motivo').hide();
 $('#hecho').prop('disabled', true);
 
 
+//agrega form dinamico
+//detectarForm();
+//initForm();
 
-cargarPedidos();
+
+
+//cargarPedidos();
 
 // function cargarPedidos() {
 //     var id = $('#pemaId').val();
@@ -95,7 +105,7 @@ console.log(id);
         cache: false,
         contentType: false,
         processData: false,
-        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTareaYudi/' + id,
+        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
             //wc();
             back();

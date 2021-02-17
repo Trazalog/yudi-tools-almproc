@@ -1,45 +1,47 @@
+<style>
+.frm-save {
+    display: none;
+}
+</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
-<h3>Escariado <small></small></h3>
-<div id="nota_pedido">
-   
-</div>
+<h3>Pedido De Reparación de Neumaticos <small>Detalle</small></h3>
+<!-- <div id="nota_pedido">
+    <table id="tabladetalle" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                 <th>Código</th> 
+                <th>Descripcion</th>
+                <th class="text-center">Fecha Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            Detalle Pedido Materiales 
+        </tbody>
+    </table>
+</div> -->
+<hr>
 
-<form id="generic_form">
+<!-- <form id="generic_form">
     <div class="form-group">
         <center>
-            <h4 class="text-danger"> ¿Continua Trabajo? </h4>
+            <h4 class="text-danger"> ¿Se Aprueba o Rechaza el Pedido de Materiales? </h4>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
-                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Si
+                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Aprobar
             </label>
             <label class="radio-inline">
                 <input id="rechazo" type="radio" name="result" value="false"
-                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false);"> No
+                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false);"> Rechazar
             </label>
         </center>
     </div>
-    <hr>
 
-<br><br>
-    <div class="form-group">
-        <center>
-            <h4 class="text-danger"> ¿Es Enparchado Menor? </h4>
-            <label class="radio-inline">
-                <input type="radio" name="result1" value="true"
-                    onclick="$('#hecho').prop('disabled',false);"> Si
-            </label>
-            <label class="radio-inline">
-                <input id="rechazo" type="radio" name="result1" value="false"
-                    onclick="$('#hecho').prop('disabled',false);"> No
-            </label>
-        </center>
-    </div>
-    <br><br>
     <div id="motivo" class="form-group motivo">
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
-</form>
+</form> -->
+<div class="frm-new" data-form="35"></div>
 
 <script>
 $('#motivo').hide();
@@ -47,7 +49,7 @@ $('#hecho').prop('disabled', true);
 
 
 
-//cargarPedidos();
+// cargarPedidos();
 
 // function cargarPedidos() {
 //     var id = $('#pemaId').val();
@@ -73,21 +75,26 @@ $('#hecho').prop('disabled', true);
 //         },
 //         dataType: 'json'
 //     });
-// }
+// // }
+
+
+
+detectarForm();
+initForm();
+
 
 function cerrarTarea() {
-debugger;
+
     if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
         alert('Completar Motivo de Rechazo');
         return;
     }
 
     var id = $('#taskId').val();
-console.log(id);
 
     var dataForm = new FormData($('#generic_form')[0]);
 
-    dataForm.append('taskId', $('#taskId').val());
+    dataForm.append('pema_id', $('#pemaId').val());
 
     $.ajax({
         type: 'POST',

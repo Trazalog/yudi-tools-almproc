@@ -1,24 +1,14 @@
+<style>
+.frm-save {
+    display: none;
+}
+</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
-<h3>Pedido Materiales <small>Detalle</small></h3>
-<div id="nota_pedido">
-    <table id="tabladetalle" class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <!-- <th>Código</th> -->
-                <th>Descripcion</th>
-                <th class="text-center">Cantidad</th>
-                <th class="text-center">Fecha Nota</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!--Detalle Pedido Materiales -->
-        </tbody>
-    </table>
-</div>
+<h3>Preparacion y aplicación de Reparación <small>Detalle</small></h3>
 <hr>
 
-<form id="generic_form">
+<!-- <form id="generic_form">
     <div class="form-group">
         <center>
             <h4 class="text-danger"> ¿Se Aprueba o Rechaza el Pedido de Materiales? </h4>
@@ -36,41 +26,48 @@
     <div id="motivo" class="form-group motivo">
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
-</form>
+</form> -->
+<div class="frm-new" data-form="36"></div>
 
 <script>
-$('#motivo').hide();
-$('#hecho').prop('disabled', true);
+// $('#motivo').hide();
+// $('#hecho').prop('disabled', true);
 
 
 
-cargarPedidos();
+// cargarPedidos();
 
-function cargarPedidos() {
-    var id = $('#pemaId').val();
-    $.ajax({
-        type: 'POST',
-        url: 'index.php/<?php echo ALM ?>Notapedido/getNotaPedidoId?id_nota=' + id,
-        success: function(data) {
+// function cargarPedidos() {
+//     var id = $('#pemaId').val();
+//     $.ajax({
+//         type: 'POST',
+//         url: 'index.php/<?php echo ALM ?>Notapedido/getNotaPedidoId?id_nota=' + id,
+//         success: function(data) {
 
-            $('tr.celdas').remove();
-            for (var i = 0; i < data.length; i++) {
-                var tr = "<tr class='celdas'>" +
-                    "<td>" + data[i]['artDescription'] + "</td>" +
-                    "<td class='text-center'>" + data[i]['cantidad'] + "</td>" +
-                    "<td class='text-center'>" + data[i]['fecha'] + "</td>" +
-                    "</tr>";
-                $('table#tabladetalle tbody').append(tr);
-            }
-            $('.table').DataTable();
-        },
-        error: function(result) {
+//             $('tr.celdas').remove();
+//             for (var i = 0; i < data.length; i++) {
+//                 var tr = "<tr class='celdas'>" +
+//                     "<td>" + data[i]['artDescription'] + "</td>" +
+//                     "<td class='text-center'>" + data[i]['cantidad'] + "</td>" +
+//                     "<td class='text-center'>" + data[i]['fecha'] + "</td>" +
+//                     "</tr>";
+//                 $('table#tabladetalle tbody').append(tr);
+//             }
+//             $('.table').DataTable();
+//         },
+//         error: function(result) {
 
-            console.log(result);
-        },
-        dataType: 'json'
-    });
-}
+//             console.log(result);
+//         },
+//         dataType: 'json'
+//     });
+// // }
+
+
+
+detectarForm();
+initForm();
+
 
 function cerrarTarea() {
 
