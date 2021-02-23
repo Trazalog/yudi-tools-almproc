@@ -17,8 +17,10 @@ class Yudiproctareas extends CI_Model
 
     public function map($tarea)
     {
+        $case_id = $tarea->caseId;
+
         $array = array();
-        $rsp = $this->getInfoPedMateriales($tarea->caseId);
+       // $rsp = $this->getInfoPedMateriales($tarea->caseId);
 
         if(!$rsp['data']){
             return $array;
@@ -51,7 +53,7 @@ class Yudiproctareas extends CI_Model
             $array['descripcion'] = $infoPema->justificacion?$infoPema->justificacion:'Pedido Materiales sin Justificación';
         }else{
 
-            $data = $this->Notapedidos->getXCaseId($tarea->caseId);
+          //  $data = $this->Notapedidios->getXCaseId($tarea->caseId);
 
             $aux = new StdClass();
             $aux->color = 'warning';
@@ -78,6 +80,17 @@ class Yudiproctareas extends CI_Model
 
         return $array;
     }
+
+     public function getXCaseId($tarea)
+    {
+        $case_id = $tarea->caseId;
+
+        $aux = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $data_generico =json_decode($aux["data"]);
+        $aux = $data_generico->pedidoTrabajo;
+        return $aux;
+    }
+   
 
     public function desplegarCabecera($tarea)
     {
