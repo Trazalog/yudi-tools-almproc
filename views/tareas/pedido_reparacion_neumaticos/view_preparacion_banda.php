@@ -27,7 +27,7 @@
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
 </form> -->
-<div class="frm-new" data-form=37></div>
+<div class="frm-new" data-form="6"></div>
 
 <script>
 // $('#motivo').hide();
