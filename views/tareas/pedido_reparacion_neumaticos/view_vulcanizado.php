@@ -28,60 +28,59 @@
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
 </form> -->
-<div class="frm-new" data-form="3"></div>
+<div id="form-dinamico" class="frm-new" data-form="3"></div>
 
 <script>
-$('#motivo').hide();
-$('#hecho').prop('disabled', true);
-
-
-
-// cargarPedidos();
-
-// function cargarPedidos() {
-//     var id = $('#pemaId').val();
-//     $.ajax({
-//         type: 'POST',
-//         url: 'index.php/<?php echo ALM ?>Notapedido/getNotaPedidoId?id_nota=' + id,
-//         success: function(data) {
-
-//             $('tr.celdas').remove();
-//             for (var i = 0; i < data.length; i++) {
-//                 var tr = "<tr class='celdas'>" +
-//                     "<td>" + data[i]['artDescription'] + "</td>" +
-//                     "<td class='text-center'>" + data[i]['cantidad'] + "</td>" +
-//                     "<td class='text-center'>" + data[i]['fecha'] + "</td>" +
-//                     "</tr>";
-//                 $('table#tabladetalle tbody').append(tr);
-//             }
-//             $('.table').DataTable();
-//         },
-//         error: function(result) {
-
-//             console.log(result);
-//         },
-//         dataType: 'json'
-//     });
-// // }
-
+$(document).ready(function(){
+    $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
+});
 
 
 detectarForm();
 initForm();
 
+function cerrarTareaform(){
+    debugger;
+    var bandera = true ;
+
+    if (!frm_validar('#form-dinamico')) {
+  
+    	console.log("Error al guardar Formulario");
+				Swal.fire(
+					'Oops...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+   bandera = false;
+       return bandera;
+
+    }
+    else{
+
+    $('#form-dinamico .frm-save').click();
+        var info_id = $('.frm').attr('data-ninfoid');
+        console.log('info_id:' + info_id);
+         console.log('Formulario Guardado con exito -function cerrarTareaform');
+        }
+
+        return bandera; 
+  }
+    
 
 function cerrarTarea() {
+    debugger;
+   var gardado = cerrarTareaform();
 
-    if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
-        alert('Completar Motivo de Rechazo');
-        return;
+    if(!gardado){
+     return;
     }
 
     var id = $('#taskId').val();
 
     var dataForm = new FormData($('#generic_form')[0]);
 
-    dataForm.append('pema_id', $('#pemaId').val());
+ //   dataForm.append('pema_id', $('#pemaId').val());
+
 
     $.ajax({
         type: 'POST',
@@ -99,6 +98,6 @@ function cerrarTarea() {
             alert("Error");
         }
     });
-
+debugger;
 }
 </script>

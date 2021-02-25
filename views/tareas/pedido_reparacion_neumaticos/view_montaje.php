@@ -30,43 +30,16 @@
 <div class="frm-new" data-form=""></div>
 
 <script>
+$(document).ready(function(){
+    $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
+});
+
 // $('#motivo').hide();
 // $('#hecho').prop('disabled', true);
 
 
-
-// cargarPedidos();
-
-// function cargarPedidos() {
-//     var id = $('#pemaId').val();
-//     $.ajax({
-//         type: 'POST',
-//         url: 'index.php/<?php echo ALM ?>Notapedido/getNotaPedidoId?id_nota=' + id,
-//         success: function(data) {
-
-//             $('tr.celdas').remove();
-//             for (var i = 0; i < data.length; i++) {
-//                 var tr = "<tr class='celdas'>" +
-//                     "<td>" + data[i]['artDescription'] + "</td>" +
-//                     "<td class='text-center'>" + data[i]['cantidad'] + "</td>" +
-//                     "<td class='text-center'>" + data[i]['fecha'] + "</td>" +
-//                     "</tr>";
-//                 $('table#tabladetalle tbody').append(tr);
-//             }
-//             $('.table').DataTable();
-//         },
-//         error: function(result) {
-
-//             console.log(result);
-//         },
-//         dataType: 'json'
-//     });
-// // }
-
-
-
-detectarForm();
-initForm();
+//detectarForm();
+//initForm();
 
 
 function cerrarTarea() {
