@@ -1,8 +1,3 @@
-<style>
-.frm-save {
-    display: none;
-}
-</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
 <h3>Escariado <small></small></h3>
@@ -30,7 +25,7 @@
 
 <script>
 $(document).ready(function(){
-    $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
+ //   $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
 });
 
 
@@ -61,7 +56,19 @@ console.log(id);
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
             //wc();
-            back();
+            //back();
+
+            linkTo('<?php echo BPM ?>Proceso/');
+         
+            setTimeout(() => {
+            Swal.fire(
+                
+                    'Perfecto!',
+                    'Se Finalizó la Tarea Correctamente!',
+                    'success'
+                )
+		  }, 13000);
+    
 
         },
         error: function(data) {

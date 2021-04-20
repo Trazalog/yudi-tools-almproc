@@ -17,40 +17,45 @@ class Yudiproctareas extends CI_Model
 
     public function map($tarea)
     {
+        $ci =& get_instance();
+        $nom_tarea = $tarea->nombreTarea;
+        $task_id = $tarea->taskId;
         $case_id = $tarea->caseId;
-
-        $array = array();
-       // $rsp = $this->getInfoPedMateriales($tarea->caseId);
-
-        if(!$rsp['data']){
-            return $array;
-        }
-
-        $infoPema = $rsp['data'];
+        $user_app = userNick();
+        $aux_pedido = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $data_generico =json_decode($aux_pedido["data"]);
+        $aux_pedido = $data_generico->pedidoTrabajo;
         
-        if(isset($infoPema->pema_id)){
+
+        
+        if(isset($case_id)){
             
             $aux = new StdClass();
-            $aux->color = 'warning';
-            $aux->texto = "N° Pedido: $infoPema->pema_id";
+            $aux->color = 'success'; //primary //secondary // success // danger // warning // info // light // dark //white 
+            $aux->texto = "N° Codigo:  $aux_pedido->cod_proyecto";
             $array['info'][] = $aux;
 
             $aux = new StdClass();
-            $aux->color = 'warning';
-            $aux->texto = "Lote: $infoPema->lote_id";
+            $aux->color = 'primary';
+            $aux->texto = "Objetivo:  $aux_pedido->objetivo   $aux_pedido->unidad_medida";
             $array['info'][] =$aux;
 
             $aux = new StdClass();
             $aux->color = 'warning';
-            $aux->texto = "Estado: $infoPema->estado";
+            $aux->texto = "Estado: $aux_pedido->estado ";
+            $array['info'][] = $aux;
+
+            $aux = new StdClass();
+            $aux->color = 'danger';
+            $aux->texto = "Fecha Inicio: ".formatFechaPG( $aux_pedido->fec_inicio);
             $array['info'][] = $aux;
 
             $aux = new StdClass();
             $aux->color = 'default';
-            $aux->texto = "Fecha: ".formatFechaPG($infoPema->fecha);
+            $aux->texto = "Fecha Entrega: ".formatFechaPG( $aux_pedido->fec_entrega);
             $array['info'][] = $aux;
 
-            $array['descripcion'] = $infoPema->justificacion?$infoPema->justificacion:'Pedido Materiales sin Justificación';
+            $array['descripcion'] =  $aux_pedido->descripcion;
         }else{
 
           //  $data = $this->Notapedidios->getXCaseId($tarea->caseId);

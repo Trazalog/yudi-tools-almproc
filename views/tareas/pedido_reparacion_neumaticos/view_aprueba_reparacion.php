@@ -44,7 +44,7 @@
 <div class="frm-new" data-form=""></div>
 <script>
 $(document).ready(function(){
-    $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
+ //   $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
 });
 
 $('#motivo').hide();
@@ -74,8 +74,18 @@ console.log(id);
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
             //wc();
-            back();
+         //   back();
+         linkTo('<?php echo BPM ?>Proceso/');
 
+         setTimeout(() => {
+            Swal.fire(
+                
+                    'Perfecto!',
+                    'Se Finalizó la Tarea Correctamente!',
+                    'success'
+                )
+		  }, 13000);
+    
         },
         error: function(data) {
             alert("Error");
