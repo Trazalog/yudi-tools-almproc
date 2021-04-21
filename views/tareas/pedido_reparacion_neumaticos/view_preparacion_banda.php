@@ -1,3 +1,8 @@
+<style>
+.frm-save {
+    display: none;
+}
+</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
 <h3>Preparacion de la Banda <small>Detalle</small></h3>
@@ -25,10 +30,6 @@
 <div id="form-dinamico" class="frm-new" data-form="6"></div>
 
 <script>
-$(document).ready(function(){
- //   $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
-});
-
 
 detectarForm();
 initForm();

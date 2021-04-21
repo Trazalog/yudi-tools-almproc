@@ -25,9 +25,7 @@
 <div class="frm-new" data-form=""></div>
 
 <script>
-$(document).ready(function(){
-  //  $('#form-dinamico-cabecera button.frm-save').attr("disabled" , true);
-});
+
 
 // $('#motivo').hide();
 // $('#hecho').prop('disabled', true);
