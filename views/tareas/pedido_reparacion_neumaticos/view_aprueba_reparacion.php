@@ -81,7 +81,7 @@ console.log(id);
                     'Se Finalizó la Tarea Correctamente!',
                     'success'
                 )
-		  }, 13000);
+		 }, 6000);
     
         },
         error: function(data) {

@@ -278,10 +278,10 @@ public function guardarForms($data)
             
                 if (!$rsp) {
             
-                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM');
+                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Recepción');
             
                 } else {
-                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK');
+                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Recepción');
             
                 }
             
@@ -298,7 +298,7 @@ public function guardarForms($data)
             "task_id" => $task_id,
             "usuario_app" => $user_app,
             "case_id" => $case_id,
-            "info_id" => $info_id
+            "info_id" =>  $aux->info_id
            
     
         );
@@ -308,10 +308,10 @@ public function guardarForms($data)
     
         if (!$rsp) {
     
-            log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM');
+            log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Preparacion y aplicación de Reparación');
     
         } else {
-            log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK');
+            log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Preparacion y aplicación de Reparación');
     
         }
 
@@ -328,7 +328,7 @@ public function guardarForms($data)
                 "task_id" => $task_id,
                 "usuario_app" => $user_app,
                 "case_id" => $case_id,
-                "info_id" => $info_id
+                "info_id" => $aux->info_id
                
         
             );
@@ -338,10 +338,10 @@ public function guardarForms($data)
         
             if (!$rsp) {
         
-                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM');
+                log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Preparacion de Banda');
         
             } else {
-                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK FORM');
+                log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Preparacion de Banda');
         
             }
     
@@ -357,7 +357,7 @@ public function guardarForms($data)
                     "task_id" => $task_id,
                     "usuario_app" => $user_app,
                     "case_id" => $case_id,
-                    "info_id" => $info_id
+                    "info_id" => $aux->info_id
                    
             
                 );
@@ -367,10 +367,10 @@ public function guardarForms($data)
             
                 if (!$rsp) {
             
-                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM');
+                    log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Vulcanización en autoclave');
             
                 } else {
-                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK FORM');
+                    log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Vulcanización en autoclave');
             
                 }
         
@@ -386,7 +386,7 @@ public function guardarForms($data)
                         "task_id" => $task_id,
                         "usuario_app" => $user_app,
                         "case_id" => $case_id,
-                        "info_id" => $info_id
+                        "info_id" => $aux->info_id
                        
                 
                     );
@@ -396,10 +396,10 @@ public function guardarForms($data)
                 
                     if (!$rsp) {
                 
-                        log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM');
+                        log_message('ERROR', '#TRAZA | #BPM >> guardarForms  >> ERROR AL GUARDAR FORM - Pintado y acabado fina');
                 
                     } else {
-                        log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> TODO OK FORM');
+                        log_message('DEBUG', '#TRAZA | #BPM >> guardarForms  >> GUARDADO OK FORM - Pintado y acabado fina');
                 
                     }
             
@@ -452,54 +452,5 @@ case 'Desmontaje':
         }
     }
 
-    public function getInfoPedMateriales($caseId)
-    {
-        $resource = '/pedidoMateriales';
-
-        $url = REST_ALM . $resource . '/' . $caseId;
-
-        $rsp = $this->rest->callAPI('GET', $url);
-
-        if ($rsp['status']) {
-
-            $rsp['data'] = json_decode($rsp['data'])->info;
-           
-        }
-
-        return $rsp;
-    }
-
-    public function pedidoNormal($pemaId)
-    {
-        //? DEBE EXISTIR LA NOTA DE PEDIDO
-        $contract = [
-            'pIdPedidoMaterial' => $pemaId,
-        ];
-
-        $rsp['data'] = $this->bpm->lanzarProceso(BPM_PROCESS_ID_PEDIDOS_NORMALES, $contract);
-
-        $this->Notapedidos->setCaseId($pemaId, $rsp['data']['caseId']);
-
-        return $this->Pedidosmateriales->setEstado($pemaId, 'Creada');
-    }
-
-    public function pedidoExtraordinario($ot = 1)
-    {
-        $pedidoExtra = 'Soy un Pedido';
-        //? SE DEBE CORRESPONDER CON UN ID EN LA TABLE ORDEN_TRABAJO SINO NO ANDA
-
-        $contract = [
-            'pedidoExtraordinario' => $pedidoExtra,
-        ];
-
-        $data = $this->bpm->lanzarProceso(BPM_PROCESS_ID_PEDIDOS_EXTRAORDINARIOS, $contract);
-
-        $peex['case_id'] = $data['data']['caseId'];
-        $peex['fecha'] = date("Y-m-d");
-        $peex['detalle'] = $pedidoExtra;
-        $peex['ortr_id'] = $ot;
-        $peex['empr_id'] = empresa();
-
-        return $this->Pedidoextra->set($peex);
-    }
+   
 }
