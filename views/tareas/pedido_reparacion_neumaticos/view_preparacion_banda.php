@@ -4,8 +4,8 @@
 }
 </style>
 <hr>
-<input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
-<h3>Preparacion de la Banda <small>Detalle</small></h3>
+<input type="number" class="hidden" value="" id="">
+<h3>Cabina <small>Detalle</small></h3>
 <hr>
 
 <!-- <form id="generic_form">
@@ -53,7 +53,7 @@ function cerrarTareaform(){
     else{
 
     $('#form-dinamico .frm-save').click();
-        var info_id = $('.frm').attr('data-ninfoid');
+        var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
         console.log('info_id:' + info_id);
          console.log('Formulario Guardado con exito -function cerrarTareaform');
         }
@@ -64,6 +64,9 @@ function cerrarTareaform(){
 
 function cerrarTarea() {
     debugger;
+
+    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+
    var gardado = cerrarTareaform();
 
     if(!gardado){
@@ -73,8 +76,8 @@ function cerrarTarea() {
     var id = $('#taskId').val();
 
     var dataForm = new FormData($('#generic_form')[0]);
-
- //   dataForm.append('pema_id', $('#pemaId').val());
+   
+    dataForm.append('frm_info_id', frm_info_id);
 
 
     $.ajax({

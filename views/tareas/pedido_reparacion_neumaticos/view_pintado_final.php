@@ -4,36 +4,70 @@
     }
 </style>
 <hr>
-<input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
+<input type="number" class="hidden" value="" id="">
 <h3>Pintado y Acabado Final <small>Detalle</small></h3>
 
 <hr>
-
-<!-- <form id="generic_form">
-    <div class="form-group">
+   
+<form id="generic_form1">
+ <div class="form-group">
         <center>
-            <h4 class="text-danger"> ¿Se Aprueba o Rechaza el Pedido de Materiales? </h4>
+            <h4 class="text-danger"> ¿Se Aprueba Trabajo? </h4>
             <label class="radio-inline">
-                <input type="radio" name="result" value="true"
-                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Aprobar
+                <input type="radio" name="result" value="ok"
+                    onclick="ocultarForm();"> Aprobar
             </label>
             <label class="radio-inline">
-                <input id="rechazo" type="radio" name="result" value="false"
-                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false);"> Rechazar
+                <input id="rechazo" type="radio" name="" value=""
+                    onclick="mostrarForm();"> Rechazar
             </label>
         </center>
     </div>
-
-    <div id="motivo" class="form-group motivo">
-        <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
-    </div>
-</form> -->
+</form>
+<br><br>
+<hr>
 <div id="form-dinamico" class="frm-new" data-form="7"></div>
+<br><br>
+<form id="generic_form">
+    <div class="form-group">
+     
+ <label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
 
+    <div class="col-md-6">       
+        <select id="" name="result" class="form-control" required>
+            <option value="" disabled selected> - Seleccionar Paso del Proceso- </option>
+            <option value="SCRAP"> - SCRAP - </option>
+            <option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
+            <option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
+        </select>
+     </div>   
+        </div>     
+</form>
+<br><br>
+<hr>
 <script>
 
-detectarForm();
+function mostrarForm(){
+
+
+ detectarForm();
 initForm();
+
+$('#form-dinamico').show();
+ $('#generic_form').show();
+ 
+}
+
+function ocultarForm(){
+ $('#form-dinamico').hide();
+ $('#generic_form').hide();
+
+}
+
+ $('#form-dinamico').hide();
+ $('#generic_form').hide();
+
+
 
 function cerrarTareaform(){
     debugger;
@@ -54,7 +88,7 @@ function cerrarTareaform(){
     else{
 
     $('#form-dinamico .frm-save').click();
-        var info_id = $('.frm').attr('data-ninfoid');
+        var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
         console.log('info_id:' + info_id);
          console.log('Formulario Guardado con exito -function cerrarTareaform');
         }
@@ -73,9 +107,24 @@ function cerrarTarea() {
 
     var id = $('#taskId').val();
 
-    var dataForm = new FormData($('#generic_form')[0]);
+   
 
- //   dataForm.append('pema_id', $('#pemaId').val());
+   if ( $("#rechazo").is(":checked")) {
+    var dataForm = new FormData($('#generic_form')[0]);
+   
+    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+    console.log('Sale: generic_form');
+    console.log('Sale frm_info_id: '+frm_info_id);
+    dataForm.append('frm_info_id', frm_info_id);
+
+   } else {
+    var dataForm = new FormData($('#generic_form1')[0]);
+
+    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+    console.log('Sale: generic_form1');
+    console.log('Sale frm_info_id: '+frm_info_id);
+    dataForm.append('frm_info_id', frm_info_id);
+   }
 
 
     $.ajax({

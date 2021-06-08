@@ -35,6 +35,7 @@
 detectarForm();
 initForm();
 
+
 function cerrarTareaform(){
     debugger;
     var bandera = true ;
@@ -54,7 +55,7 @@ function cerrarTareaform(){
     else{
 
     $('#form-dinamico .frm-save').click();
-        var info_id = $('.frm').attr('data-ninfoid');
+        var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
         console.log('info_id:' + info_id);
          console.log('Formulario Guardado con exito -function cerrarTareaform');
         }
@@ -73,9 +74,11 @@ function cerrarTarea() {
 
     var id = $('#taskId').val();
 
-    var dataForm = new FormData($('#generic_form')[0]);
+    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
 
- //   dataForm.append('pema_id', $('#pemaId').val());
+    var dataForm = new FormData($('#generic_form')[0]);
+   
+    dataForm.append('frm_info_id', frm_info_id);
 
 
     $.ajax({
