@@ -164,7 +164,7 @@ $('#comprobante').hide();
 
 function ocultarForm(){
 
-$('#motivo').hide();
+$('#motivo').show();
 $('#comprobante').show();
 $('#hecho').prop('disabled',false);
 $('#form-dinamico').hide();
