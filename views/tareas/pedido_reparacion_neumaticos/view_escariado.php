@@ -1,3 +1,8 @@
+<style>
+input[type=radio]{
+  transform:scale(1.6);
+}
+</style>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
 <h3>Escariado <small></small></h3>
@@ -6,7 +11,7 @@
 <form id="generic_form">
     <div class="form-group">
         <center>
-            <h4 class="text-danger"> ¿Continua Trabajo? </h4>
+            <h3 class="text-danger"> ¿Continua Trabajo? </h3>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
                     onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Si
