@@ -2,6 +2,9 @@
     .frm-save {
         display: none;
     }
+    input[type=radio]{
+        transform:scale(1.6);
+    }
 </style>
 <hr>
 <input type="number" class="hidden" value="" id="">
