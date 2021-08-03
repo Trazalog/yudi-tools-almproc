@@ -1,7 +1,10 @@
 <style>
-    .frm-save {
-        display: none;
-    }
+.frm-save {
+    display: none;
+}
+input[type=radio]{
+  transform:scale(1.6);
+}
 </style>
 <hr>
 <!-- <input type="number" class="hidden" value="<?php // echo $pema_id ?>" id="pemaId"> -->
@@ -15,7 +18,7 @@
 <form id="generic_form">
     <div class="form-group">
         <center>
-            <h4 class="text-danger"> ¿Se Aprueba Trabajo? </h4>
+            <h3 class="text-danger"> ¿Se Aprueba Trabajo? </h3>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
                     onclick="mostrarForm();"> Aprobar
