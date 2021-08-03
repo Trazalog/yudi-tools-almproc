@@ -1,3 +1,7 @@
+<?php	// #HGallardo
+    // carga el modal de impresion de QR
+    $this->load->view( COD.'componentes/modal');
+?>
 <hr>
 <input type="number" class="hidden" value="<?php echo $pema_id ?>" id="pemaId">
 <h3>Escariado <small></small></h3>
@@ -9,11 +13,11 @@
             <h4 class="text-danger"> ¿Continua Trabajo? </h4>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
-                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Si
+                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false); $('#btnImpresion').hide();"> Si
             </label>
             <label class="radio-inline">
                 <input id="rechazo" type="radio" name="result" value="false"
-                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false);"> No
+                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false); $('#btnImpresion').show();"> No
             </label>
         </center>
     </div>
@@ -22,55 +26,150 @@
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
     </div>
 </form>
+
+<button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 <br><br><br>
 <script>
 
-$('#motivo').hide();
-$('#hecho').prop('disabled', true);
+	$('#motivo').hide();
+	$('#hecho').prop('disabled', true);
 
 
-function cerrarTarea() {
-debugger;
-    if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
-        alert('Completar Motivo de Rechazo');
-        return;
-    }
+	function cerrarTarea() {
+			debugger;
+			if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
+					alert('Completar Motivo de Rechazo');
+					return;
+			}
 
-    var id = $('#taskId').val();
-console.log(id);
+			var id = $('#taskId').val();
+			console.log(id);
 
-    var dataForm = new FormData($('#generic_form')[0]);
+			var dataForm = new FormData($('#generic_form')[0]);
 
-    dataForm.append('taskId', $('#taskId').val());
+			dataForm.append('taskId', $('#taskId').val());
 
-    $.ajax({
-        type: 'POST',
-        data: dataForm,
-        cache: false,
-        contentType: false,
-        processData: false,
-        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-        success: function(data) {
-            //wc();
-            //back();
+			$.ajax({
+					type: 'POST',
+					data: dataForm,
+					cache: false,
+					contentType: false,
+					processData: false,
+					url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+					success: function(data) {
+							//wc();
+							//back();
 
-            linkTo('<?php echo BPM ?>Proceso/');
-         
-            setTimeout(() => {
-            Swal.fire(
-                
-                    'Perfecto!',
-                    'Se Finalizó la Tarea Correctamente!',
-                    'success'
-                )
-		 }, 6000);
-    
+							linkTo('<?php echo BPM ?>Proceso/');
+					
+							setTimeout(() => {
+							Swal.fire(
+									
+											'Perfecto!',
+											'Se Finalizó la Tarea Correctamente!',
+											'success'
+									)
+			}, 6000);
+			
 
-        },
-        error: function(data) {
-            alert("Error");
-        }
-    });
+					},
+					error: function(data) {
+							alert("Error");
+					}
+			});
 
-}
+	}
+</script>
+
+
+<script>  // #HGallardo
+
+$('#btnImpresion').hide();
+	var band = 0;
+  // Se peden hacer dos cosas: o un ajax con los datos o directamente
+  // armar con los datos de la pantalla
+  function modalCodigos(){
+
+      // si es rechazado el pedido debe llenar el input motivo
+      // var rechazo = $("#motivo_rechazo").val();
+      // if (rechazo == undefined) {
+      //   alert('Por favor complete el campo Motivo de Rechazo...');
+      //   return;
+      // }
+
+      if (band == 0) {
+          // configuracion de codigo QR
+          var config = {};
+              config.titulo = "Revision Inicial";
+              config.pixel = "5";
+              config.level = "L";
+              config.framSize = "2";
+          // info para immprimir
+          var arraydatos = {};
+              arraydatos.Cliente = $('#cliente').val();
+              arraydatos.Medida = "4";
+              arraydatos.Marca = "Gudllear";
+              arraydatos.Serie = $('#num_serie').val();
+          // info para grabar en codigo QR
+          armarInfo(arraydatos);
+          // agrega codigo QR al modal impresion
+          //getQR(config, arraydatos);
+      }
+      // llama modal con datos e img de QR ya ingresados
+      verModalImpresion();
+
+      band = 1;
+      //FIXME: DE ACA SACAR EL INFO ID PARA BUSCAR LA INFO CON EL OTRO SERVICIO
+      //var infoId = $('#form-dinamico-cabecera').attr('data-frm-id');
+  }
+
+  function armarInfo(arraydatos){
+
+    var d = new Date();
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var fecha_actual = ((''+day).length<2 ? '0' : '') + day + '/' +
+        ((''+month).length<2 ? '0' : '') + month + '/' +
+        d.getFullYear();
+
+    var num = $('#num_cubiertas').val();
+
+    var html =
+
+          "<div class'row'>" +
+                  "<div class='col-md-2'>" +
+                    "<p>" + num + "</p>" +
+                  "</div>" +
+                  //"<div class='col-md-8 col-sm-8 col-xs-12'>" +
+                  "<div class='col-md-8 col-sm-8 center-block'>" +
+                    "<h3 class='center-block'>YUDICA NEUMATICOS</h3>"+
+                  "</div>" +
+                  "<div class='col-md-2'>" +
+                    "<p>" + fecha_actual + "</p>"+
+                  "</div>" +
+              "</div>" +
+          "</div>" +
+          "<table class='table table-bordered table-striped'>"+
+              "<thead class='thead-dark' bgcolor='#eeeeee'>" +
+                "<th>Cliente</th>" +
+                "<th>Medida</th>" +
+                "<th>Marca</th>" +
+                "<th>Serie</th>" +
+              "</thead>" +
+              "<tbody>" +
+                "<tr>" +
+                  "<td>" + arraydatos.Cliente + "</td>" +
+                  "<td>" + arraydatos.Medida + "</td>" +
+                  "<td>" + arraydatos.Marca + "</td>" +
+                  "<td>" + arraydatos.Serie + "</td>" +
+                "</tr>" +
+              "</tbody>" +
+          "</table>" +
+          "<br>"+
+          "<div class='d-flex justify-content-center'>" +
+            "<h1 class='text-center'>RECHAZADA</h1>" +
+          "</div>";
+
+    $("#infoEtiqueta").append(html);
+  }
 </script>
