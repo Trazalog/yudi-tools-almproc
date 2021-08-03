@@ -257,11 +257,13 @@ input[type=radio]{
               config.pixel = "5";
               config.level = "L";
               config.framSize = "2";
-          // info para immprimir
+          // info para immprimir  medidas_yudica
+
+
           var arraydatos = {};
               arraydatos.Cliente = $('#cliente').val();
-              arraydatos.Medida = "4";
-              arraydatos.Marca = "Gudllear";
+              arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
+              arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
               arraydatos.Serie = $('#num_serie').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
