@@ -6,6 +6,12 @@
         transform:scale(1.6);
     }
 </style>
+
+<?php // #HGallardo
+    // carga el modal de impresion de QR
+    $this->load->view( COD.'componentes/modal');
+?>
+
 <hr>
 <input type="number" class="hidden" value="" id="">
 <h3>Pintado y Acabado Final <small>Detalle</small></h3>
@@ -31,131 +37,227 @@
 <hr>
 <div id="form-dinamico" class="frm-new" data-form="7"></div>
 <br><br>
-<form id="generic_form">
+<form id="generic_form"></form>
     <div class="form-group">
      
- <label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
+				<label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
 
-    <div class="col-md-6">       
-        <select id="" name="result" class="form-control" required>
-            <option value="" disabled selected> - Seleccionar Paso del Proceso- </option>
-            <option value="SCRAP"> - SCRAP - </option>
-            <option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
-            <option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
-        </select>
-     </div>   
-        </div>     
+				<div class="col-md-6">
+						<select id="" name="result" class="form-control" required>
+								<option value="" disabled selected> - Seleccionar Paso del Proceso- </option>
+								<option value="SCRAP"> - SCRAP - </option>
+								<option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
+								<option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
+                <option value="CABINA"> - CABINA - </option>
+						</select>
+				</div>
+    </div>
 </form>
+
 <br><br>
 <hr>
+
+<button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
+
 <script>
 
-function mostrarForm(){
+	function mostrarForm(){
 
 
- detectarForm();
-initForm();
+			detectarForm();
+			initForm();
 
-$('#form-dinamico').show();
- $('#generic_form').show();
- 
-}
+			$('#form-dinamico').show();
+			$('#generic_form').show();
 
-function ocultarForm(){
- $('#form-dinamico').hide();
- $('#generic_form').hide();
+			// oculta btn para imprimir
+      $('#btnImpresion').hide();
 
-}
+	}
 
- $('#form-dinamico').hide();
- $('#generic_form').hide();
+	function ocultarForm(){
+			$('#form-dinamico').hide();
+			$('#generic_form').hide();
+
+			// oculta btn para imprimir
+      $('#btnImpresion').show();
+
+	}
+
+	$('#form-dinamico').hide();
+	$('#generic_form').hide();
 
 
 
-function cerrarTareaform(){
-    debugger;
-    var bandera = true ;
+	function cerrarTareaform(){
+			debugger;
+			var bandera = true ;
 
-    if (!frm_validar('#form-dinamico')) {
-  
-    	console.log("Error al guardar Formulario");
-				Swal.fire(
-					'Oops...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-   bandera = false;
-       return bandera;
+			if (!frm_validar('#form-dinamico')) {
+		
+				console.log("Error al guardar Formulario");
+					Swal.fire(
+						'Oops...',
+						'Debes completar los campos Obligatorios (*)',
+						'error'
+					)
+		bandera = false;
+				return bandera;
 
-    }
-    else{
+			}
+			else{
 
-    $('#form-dinamico .frm-save').click();
-        var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-        console.log('info_id:' + info_id);
-         console.log('Formulario Guardado con exito -function cerrarTareaform');
-        }
+			$('#form-dinamico .frm-save').click();
+					var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+					console.log('info_id:' + info_id);
+					console.log('Formulario Guardado con exito -function cerrarTareaform');
+					}
 
-        return bandera; 
+					return bandera; 
+		}
+			
+
+	function cerrarTarea() {
+			debugger;
+		var gardado = cerrarTareaform();
+
+			if(!gardado){
+			return;
+			}
+
+			var id = $('#taskId').val();
+
+		
+
+		if ( $("#rechazo").is(":checked")) {
+			var dataForm = new FormData($('#generic_form')[0]);
+		
+			var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+			console.log('Sale: generic_form');
+			console.log('Sale frm_info_id: '+frm_info_id);
+			dataForm.append('frm_info_id', frm_info_id);
+
+		} else {
+			var dataForm = new FormData($('#generic_form1')[0]);
+
+			var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+			console.log('Sale: generic_form1');
+			console.log('Sale frm_info_id: '+frm_info_id);
+			dataForm.append('frm_info_id', frm_info_id);
+		}
+
+
+			$.ajax({
+					type: 'POST',
+					data: dataForm,
+					cache: false,
+					contentType: false,
+					processData: false,
+					url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+					success: function(data) {
+							//wc();
+						//back();
+						linkTo('<?php echo BPM ?>Proceso/');
+						
+						setTimeout(() => {
+							Swal.fire(
+									
+											'Perfecto!',
+											'Se Finalizó la Tarea Correctamente!',
+											'success'
+									)
+			}, 6000);
+			
+					},
+					error: function(data) {
+							alert("Error");
+					}
+			});
+	debugger;
+	}
+</script>
+
+<script>  // #HGallardo
+	// oculta btn para imprimir
+	$('#btnImpresion').hide();
+  var band = 0;
+  // Se peden hacer dos cosas: o un ajax con los datos o directamente
+  // armar con los datos de la pantalla
+  function modalCodigos(){
+
+      if (band == 0) {
+          // configuracion de codigo QR
+          var config = {};
+              config.titulo = "Pintado y Acabado Final";
+              config.pixel = "5";
+              config.level = "L";
+              config.framSize = "2";
+          // info para immprimir
+          var arraydatos = {};
+              arraydatos.Cliente = $('#cliente').val();
+              arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
+              arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
+              arraydatos.Serie = $('#num_serie').val();
+          // info para grabar en codigo QR
+          armarInfo(arraydatos);
+          // agrega codigo QR al modal impresion
+          getQR(config, arraydatos);
+      }
+      // llama modal con datos e img de QR ya ingresados
+      verModalImpresion();
+
+      band = 1;
+      //FIXME: DE ACA SACAR EL INFO ID PARA BUSCAR LA INFO CON EL OTRO SERVICIO
+      //var infoId = $('#form-dinamico-cabecera').attr('data-frm-id');
   }
-    
 
-function cerrarTarea() {
-    debugger;
-   var gardado = cerrarTareaform();
+  function armarInfo(arraydatos){
 
-    if(!gardado){
-     return;
-    }
+    var d = new Date();
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var fecha_actual = ((''+day).length<2 ? '0' : '') + day + '/' +
+        ((''+month).length<2 ? '0' : '') + month + '/' +
+        d.getFullYear();
 
-    var id = $('#taskId').val();
+    var num = $('#num_cubiertas').val();
 
-   
+    var html =
 
-   if ( $("#rechazo").is(":checked")) {
-    var dataForm = new FormData($('#generic_form')[0]);
-   
-    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-    console.log('Sale: generic_form');
-    console.log('Sale frm_info_id: '+frm_info_id);
-    dataForm.append('frm_info_id', frm_info_id);
+          "<div class'row'>" +
+                  "<div class='col-md-2'>" +
+                    "<p>" + num + "</p>" +
+                  "</div>" +
+                  //"<div class='col-md-8 col-sm-8 col-xs-12'>" +
+                  "<div class='col-md-8 col-sm-8 center-block'>" +
+                    "<h3 class='center-block'>YUDICA NEUMATICOS</h3>"+
+                  "</div>" +
+                  "<div class='col-md-2'>" +
+                    "<p>" + fecha_actual + "</p>"+
+                  "</div>" +
+              "</div>" +
+          "</div>" +
+          "<table class='table table-bordered table-striped'>"+
+              "<thead class='thead-dark' bgcolor='#eeeeee'>" +
+                "<th>Cliente</th>" +
+                "<th>Medida</th>" +
+                "<th>Marca</th>" +
+                "<th>Serie</th>" +
+              "</thead>" +
+              "<tbody>" +
+                "<tr>" +
+                  "<td>" + arraydatos.Cliente + "</td>" +
+                  "<td>" + arraydatos.Medida + "</td>" +
+                  "<td>" + arraydatos.Marca + "</td>" +
+                  "<td>" + arraydatos.Serie + "</td>" +
+                "</tr>" +
+              "</tbody>" +
+          "</table>" +
+          "<br>"+
+          "<div class='d-flex justify-content-center'>" +
+          //  "<h1 class='text-center'>RECHAZADA</h1>" +
+          "</div>";
 
-   } else {
-    var dataForm = new FormData($('#generic_form1')[0]);
-
-    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-    console.log('Sale: generic_form1');
-    console.log('Sale frm_info_id: '+frm_info_id);
-    dataForm.append('frm_info_id', frm_info_id);
-   }
-
-
-    $.ajax({
-        type: 'POST',
-        data: dataForm,
-        cache: false,
-        contentType: false,
-        processData: false,
-        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-        success: function(data) {
-            //wc();
-           //back();
-           linkTo('<?php echo BPM ?>Proceso/');
-           
-           setTimeout(() => {
-            Swal.fire(
-                
-                    'Perfecto!',
-                    'Se Finalizó la Tarea Correctamente!',
-                    'success'
-                )
-		}, 6000);
-    
-        },
-        error: function(data) {
-            alert("Error");
-        }
-    });
-debugger;
-}
+    $("#infoEtiqueta").append(html);
+  }
 </script>
