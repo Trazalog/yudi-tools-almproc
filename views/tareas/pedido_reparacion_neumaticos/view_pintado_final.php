@@ -48,6 +48,7 @@
 								<option value="SCRAP"> - SCRAP - </option>
 								<option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
 								<option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
+                <option value="CABINA"> - CABINA - </option>
 						</select>
 				</div>
     </div>
