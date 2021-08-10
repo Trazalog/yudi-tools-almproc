@@ -15,16 +15,28 @@ class InfoCodigo extends CI_Controller {
 		}
 
 		/**
+		*  Devuelve vista para impresion de codigo QR de la tarea Pedido de Trabajo
+		* @param array con datos para modal
+		* @return view
+		*/
+		function pedidoTrabajo()
+		{     
+			$data = $this->input->post();
+			$this->load->view('codigos/qr_pedido_trabajo', $data);
+
+		}
+
+		/**
 		* Devuelve vista para impresion de codigo QR de la tarea revision inicial
-		* @param
-		* @return
+		* @param array con datos de la view
+		* @return view 
 		*/
 		function revisionInicial()
 		{
 				$data = $this->input->post();
+				// si es reimpresion traigo datos nuevamente
 				if ( $data['tipoImpresion'] == 'reimpresion' ){
-
-					//TODO: MAPEAR LOS DATOS PARA REHUSARLOS MODALES Y LLAMAR VIEW
+					// mapeo datos para reutilizar la view
 					$data = $this->mapeoDatos($data['info_id']);
 				}
 				$this->load->view('codigos/qr_revision_inicial', $data);
@@ -32,8 +44,8 @@ class InfoCodigo extends CI_Controller {
 
 		/**
 		* Devuelve vista para impresion de codigo QR de la tarea revision inicial
-		* @param
-		* @return
+		* @param array con datos de la view
+		* @return view
 		*/
 		function pintadoFinal()
 		{
@@ -44,8 +56,8 @@ class InfoCodigo extends CI_Controller {
 
 		/**
 		* Devuelve footer para impresion de codigo QR de la tarea revision inicial
-		* @param
-		* @return
+		* @param array con datos de la view
+		* @return view
 		*/
 		function pintadoFinalFooter()
 		{
@@ -56,8 +68,8 @@ class InfoCodigo extends CI_Controller {
 
 		/**
 		* Devuelva info para reimpresion de etiqueta
-		* @param
-		* @return
+		* @param array con datos de la view
+		* @return view
 		*/
 		function reimpresionPedTrabajo()
 		{
