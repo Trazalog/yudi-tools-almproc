@@ -12,5 +12,29 @@ class InfoCodigos extends CI_Model
 			parent::__construct();
 		}
 
+		/**
+		* Devuelva info para reimpresion de etiqueta
+		* @param
+		* @return
+		*/
+		function reimpresionPedTrabajo($data)
+		{     
+
+
+		}
+
+		/**
+		*
+		* @param
+		* @return
+		*/
+		function getDataYudica($infoid)
+		{
+			http://10.142.0.13:8280/services/FRMDataService/formulario/471
+			$aux = $this->rest->callAPI("GET",REST_FRM."/formulario/".$infoid);
+			$aux =json_decode($aux["data"]);
+			return $aux->formulario->items->item;
+
+		}
 
 }
