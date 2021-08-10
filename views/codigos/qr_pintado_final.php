@@ -28,5 +28,5 @@
 </table>
 
 <div class='d-flex justify-content-center'>
-  <h1 class='text-center'>RECHAZADA</h1>
+  <h1 class='text-center' id="estadoEtiqueta">RECHAZADA</h1>
 </div>
