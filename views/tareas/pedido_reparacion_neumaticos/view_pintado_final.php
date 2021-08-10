@@ -213,7 +213,7 @@
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/pintadoFinal", arraydatos);
-    $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/pintadoFinalFooter");
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pintadoFinal", arraydatos);
+    $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pintadoFinalFooter");
   }
 </script>

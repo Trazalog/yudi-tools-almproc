@@ -1,17 +1,17 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
-* Entidad InfoCodigo encargada de obtener informacion
+* Entidad Infocodigo encargada de obtener informacion
 * para representar codigos QR o de Barras
 *
 * @autor Hugo Gallardo
 */
-class InfoCodigo extends CI_Controller {
+class Infocodigo extends CI_Controller {
 
 		function __construct()
 		{
 				parent::__construct();
-				$this->load->model(YUDIPROC.'InfoCodigos');
+				$this->load->model(YUDIPROC.'Infocodigos');
 		}
 
 		/**
@@ -50,6 +50,7 @@ class InfoCodigo extends CI_Controller {
 		function pintadoFinal()
 		{
 			$data = $this->input->post();
+			log_message('DEBUG','#TRAZA|YUDI-TOOL-ALMPROC|pintadoFinal() $data >> '.json_encode($data));
 			$this->load->view('codigos/qr_pintado_final', $data);
 
 		}
@@ -89,7 +90,7 @@ class InfoCodigo extends CI_Controller {
 		*/
 		function mapeoDatos($infoid)
 		{     
-			$data= $this->InfoCodigos->getDataYudica($infoid);
+			$data= $this->Infocodigos->getDataYudica($infoid);
 
 			// arraydatos.Cliente
 			// arraydatos.Medida
