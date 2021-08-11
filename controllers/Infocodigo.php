@@ -20,10 +20,9 @@ class Infocodigo extends CI_Controller {
 		* @return view
 		*/
 		function pedidoTrabajo()
-		{     
+		{
 			$data = $this->input->post();
 			$this->load->view('codigos/qr_pedido_trabajo', $data);
-
 		}
 
 		/**
@@ -31,28 +30,10 @@ class Infocodigo extends CI_Controller {
 		* @param array con datos de la view
 		* @return view 
 		*/
-		function revisionInicial()
+		function rechazado()
 		{
 				$data = $this->input->post();
-				// si es reimpresion traigo datos nuevamente
-				if ( $data['tipoImpresion'] == 'reimpresion' ){
-					// mapeo datos para reutilizar la view
-					$data = $this->mapeoDatos($data['info_id']);
-				}
-				$this->load->view('codigos/qr_revision_inicial', $data);
-		}
-
-		/**
-		* Devuelve vista para impresion de codigo QR de la tarea revision inicial
-		* @param array con datos de la view
-		* @return view
-		*/
-		function pintadoFinal()
-		{
-			$data = $this->input->post();
-			log_message('DEBUG','#TRAZA|YUDI-TOOL-ALMPROC|pintadoFinal() $data >> '.json_encode($data));
-			$this->load->view('codigos/qr_pintado_final', $data);
-
+				$this->load->view('codigos/qr_rechazado', $data);
 		}
 
 		/**
@@ -60,27 +41,9 @@ class Infocodigo extends CI_Controller {
 		* @param array con datos de la view
 		* @return view
 		*/
-		function pintadoFinalFooter()
+		function pedidoTrabajoFooter()
 		{
-			$data = $this->input->post();
-			$this->load->view('codigos/qr_pintado_final_footer', $data);
-
-		}
-
-		/**
-		* Devuelva info para reimpresion de etiqueta
-		* @param array con datos de la view
-		* @return view
-		*/
-		function reimpresionPedTrabajo()
-		{
-			$datos = $this->input->post();
-			$dataSesion = $this->session->userdata();
-
-			// traer datos de yudica modelo
-			$datosModal = $this->reimpresionPedTrabajo($datos['infoid']);
-
-
+			$this->load->view('codigos/qr_pintado_final_footer');
 		}
 
 		/**
@@ -89,19 +52,12 @@ class Infocodigo extends CI_Controller {
 		* @return array con datos mapeado para dibujar modal y codigo QR
 		*/
 		function mapeoDatos($infoid)
-		{     
+		{
 			$data= $this->Infocodigos->getDataYudica($infoid);
 
-			// arraydatos.Cliente
-			// arraydatos.Medida
-			// arraydatos.Marca
-			// arraydatos.Serie
-			// arraydatos.Num
 			foreach ($data as $value) {
 				switch ($value->name) {
-					// case 'value':
-					// 	# code...
-					// 	break;
+
 					case 'marca_yudica':
 								$datos['Marca'] = $value->valor;
 								break;
@@ -122,7 +78,12 @@ class Infocodigo extends CI_Controller {
 			}
 
 			$datos['Cliente'] = "";
-			return $datos;
+
+			if ($server != null) {
+				return $datos;
+			} else {
+				echo json_encode($datos);
+			}
 		}
 
 }

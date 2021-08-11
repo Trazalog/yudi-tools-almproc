@@ -275,6 +275,6 @@ input[type=radio]{
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/revisionInicial", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/rechazado", arraydatos);
   }
 </script>
