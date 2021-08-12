@@ -213,7 +213,7 @@
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pintadoFinal", arraydatos);
-    $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pintadoFinalFooter");
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajo", arraydatos);
+    $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFooter");
   }
 </script>
