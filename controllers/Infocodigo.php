@@ -77,13 +77,7 @@ class Infocodigo extends CI_Controller {
 				}
 			}
 
-			$datos['Cliente'] = "";
-
-			if ($server != null) {
-				return $datos;
-			} else {
-				echo json_encode($datos);
-			}
+			echo json_encode($datos);
 		}
 
 }
