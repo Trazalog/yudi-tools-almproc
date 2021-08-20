@@ -120,6 +120,6 @@ input[type=radio]{
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/pintadoFinal", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/rechazado", arraydatos);
   }
 </script>
