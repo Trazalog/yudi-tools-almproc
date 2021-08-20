@@ -326,7 +326,6 @@ public function guardarForms($data)
     
         }
                    
-    ///HARCODE CHUKA
             $contrato["apruebaTrabajo"]  = $form['result'];
 
               return $contrato;

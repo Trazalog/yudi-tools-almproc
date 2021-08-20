@@ -37,7 +37,7 @@
 <hr>
 <div id="form-dinamico" class="frm-new" data-form="7"></div>
 <br><br>
-<form id="generic_form"></form>
+<form id="generic_form">
     <div class="form-group">
      
 				<label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
@@ -60,6 +60,9 @@
 <button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 
 <script>
+$('#form-dinamico').hide();
+	$('#generic_form').hide();
+
 
 	function mostrarForm(){
 
@@ -68,7 +71,11 @@
 			initForm();
 
 			$('#form-dinamico').show();
-			$('#generic_form').show();
+
+
+			setTimeout(function(){ $('#generic_form').show() ; }, 8000);
+
+			
 
 			// oculta btn para imprimir
       $('#btnImpresion').hide();
@@ -84,10 +91,7 @@
 
 	}
 
-	$('#form-dinamico').hide();
-	$('#generic_form').hide();
-
-
+	
 
 	function cerrarTareaform(){
 			debugger;
