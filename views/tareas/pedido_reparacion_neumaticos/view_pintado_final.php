@@ -23,11 +23,11 @@
         <center>
             <h4 class="text-danger"> ¿Se Aprueba Trabajo? </h4>
             <label class="radio-inline">
-                <input type="radio" name="result" value="ok"
+                <input type="radio" name="result" id="Aprobar" value="ok"
                     onclick="ocultarForm();"> Aprobar
             </label>
             <label class="radio-inline">
-                <input id="rechazo" type="radio" name="" value=""
+                <input type="radio" name="result"  id="rechazo" value=""
                     onclick="mostrarForm();"> Rechazar
             </label>
         </center>
@@ -83,6 +83,8 @@ $('#form-dinamico').hide();
 	}
 
 	function ocultarForm(){
+		$('#generic_form').hide();
+
 			$('#form-dinamico').hide();
 			$('#generic_form').hide();
 
