@@ -10,19 +10,47 @@
 		<p> <?php echo date("d/m/Y") ?> </p>
 	</div>
 </div>
+
+
 <table class='table table-bordered table-striped'>
-		<thead class='thead-dark' bgcolor='#eeeeee'>
-			<th>Cliente</th>
-			<th>Medida</th>
-			<th>Marca</th>
-			<th>Serie</th>
-		</thead>
-		<tbody>
-			<tr>
-				<td> <?php echo $Cliente ?> </td>
-				<td> <?php echo $Medida ?> </td>
-				<td> <?php echo $Marca ?> </td>
-				<td> <?php echo $Serie ?> </td>
-			</tr>
-		</tbody>
+<thead>
+  <tr>
+    <th class='thead-dark'>Cliente</th>
+    <th class='thead-dark'><?php echo $Cliente ?></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class='thead-dark'>Medida</td>
+    <td class='thead-dark'><?php echo $Medida ?></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>Marca</td>
+    <td class='thead-dark'><?php echo $Marca ?></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>Serie</td>
+    <td class='thead-dark'><?php echo $Serie ?></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>E1</td>
+    <td class='thead-dark'>E2</td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>F1</td>
+    <td class='thead-dark'>F2</td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>G1</td>
+    <td class='thead-dark'>G2</td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>H1</td>
+    <td class='thead-dark'>H2</td>
+  </tr>
+  <tr>
+    <td class='thead-dark'>I1</td>
+    <td class='thead-dark'>I2</td>
+  </tr>
+</tbody>
 </table>
