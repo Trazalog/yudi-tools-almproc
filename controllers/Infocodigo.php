@@ -58,6 +58,9 @@ class Infocodigo extends CI_Controller {
 			foreach ($data as $value) {
 				switch ($value->name) {
 
+					case 'zona':
+						$datos['Zona'] = $value->valor;
+						break;
 					case 'marca_yudica':
 								$datos['Marca'] = $value->valor;
 								break;
