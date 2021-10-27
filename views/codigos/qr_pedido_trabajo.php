@@ -1,6 +1,6 @@
 <div class='row'>
 	<div class='col-md-2'>
-		<p><strong>N° de Etiqueta:</strong> <?php echo $Num ?> </p>
+		<p><strong>N° de Etiqueta:</strong>  </p>
 	</div>
 				<!-- <div class='col-md-8 col-sm-8 col-xs-12'> -->
 	<div class='col-md-12 col-sm-12 col-xs-12' style="margin-bottom:5px;" id='contenedorImageQR'>
@@ -46,7 +46,7 @@
   </tr>
   <tr>
     <td class='thead-dark'><strong>Cantidad</strong></td>
-    <td class='thead-dark'><strong>Cantidad</strong></td>
+    <td class='thead-dark'><strong><?php echo $Num ?></strong></td>
   </tr>
 </tbody>
 </table>
