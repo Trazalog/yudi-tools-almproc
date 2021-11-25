@@ -20,7 +20,10 @@ class Infocodigos extends CI_Model
 		function getDataYudica($infoid)
 		{
 			$aux = $this->rest->callAPI("GET",REST_FRM."/formulario/".$infoid);
+		
 			$aux =json_decode($aux["data"]);
+			log_message('DEBUG', '#Model YUDICA -Infocodigo- getDataYudica >>  | $infoid: ' .json_decode($infoid));
+			log_message('DEBUG', '#Model YUDICA -Infocodigo- getDataYudica >>  | $infocodigo: ' .json_decode($aux));
 			return $aux->formulario->items->item;
 		}
 

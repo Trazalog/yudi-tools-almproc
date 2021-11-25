@@ -190,7 +190,7 @@ $('#form-dinamico').hide();
   // Se peden hacer dos cosas: o un ajax con los datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
-
+debugger;
       if (band == 0) {
           // configuracion de codigo QR
           var config = {};
@@ -205,6 +205,10 @@ $('#form-dinamico').hide();
               arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
               arraydatos.Serie = $('#num_serie').val();
               arraydatos.Num = $('#num_cubiertas').val();
+			 
+			  arraydatos.Zona = $('#zona').val();
+              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
           // agrega codigo QR al modal impresion

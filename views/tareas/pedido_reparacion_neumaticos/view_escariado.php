@@ -109,6 +109,10 @@ input[type=radio]{
               arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
               arraydatos.Serie = $('#num_serie').val();
               arraydatos.Num = $('#num_cubiertas').val();
+              
+              arraydatos.Zona = $('#zona').val();
+              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
       }
