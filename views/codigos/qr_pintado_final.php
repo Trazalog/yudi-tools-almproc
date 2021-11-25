@@ -20,37 +20,33 @@
   </tr>
 </thead>
 <tbody>
-  <tr>
-    <td class='thead-dark'>Medida</td>
-    <td class='thead-dark'><?php echo $Medida ?></td>
+  <tr>	
+    <td class='thead-dark'><strong>Zona</strong></td>
+    <td class='thead-dark'><strong><?php echo $Zona ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>Marca</td>
-    <td class='thead-dark'><?php echo $Marca ?></td>
+    <td class='thead-dark'><strong>Medida</strong></td>
+    <td class='thead-dark'><strong><?php echo $Medida ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>Serie</td>
-    <td class='thead-dark'><?php echo $Serie ?></td>
+    <td class='thead-dark'><strong>Marca</strong></td>
+    <td class='thead-dark'><strong><?php echo $Marca ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>E1</td>
-    <td class='thead-dark'>E2</td>
+    <td class='thead-dark'><strong>Serie / N° interno</strong></td>
+    <td class='thead-dark'><strong><?php echo $Serie ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>F1</td>
-    <td class='thead-dark'>F2</td>
+    <td class='thead-dark'><strong>Trabajo</strong></td>
+    <td class='thead-dark'><strong><?php echo $Trabajo ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>G1</td>
-    <td class='thead-dark'>G2</td>
+    <td class='thead-dark'><strong>Cantidad</strong></td>
+    <td class='thead-dark'><strong><?php echo $Num ?></strong></td>
   </tr>
   <tr>
-    <td class='thead-dark'>H1</td>
-    <td class='thead-dark'>H2</td>
-  </tr>
-  <tr>
-    <td class='thead-dark'>I1</td>
-    <td class='thead-dark'>I2</td>
+    <td class='thead-dark'><strong>Banda</strong></td>
+    <td class='thead-dark'><strong><?php echo $Banda ?></strong></td>
   </tr>
 </tbody>
 </table>

@@ -74,6 +74,14 @@ class Infocodigo extends CI_Controller {
 								$datos['Num'] = $value->valor;
 								break;
 
+					case 'tipt_id':
+									$datos['Trabajo'] = $value->valor;
+									break;
+
+						case 'banda_yudica':
+									$datos['Banda'] = $value->valor;
+									break;
+							
 						default:
 
 								break;

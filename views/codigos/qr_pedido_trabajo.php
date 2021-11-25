@@ -48,6 +48,10 @@
     <td class='thead-dark'><strong>Cantidad</strong></td>
     <td class='thead-dark'><strong><?php echo $Num ?></strong></td>
   </tr>
+  <tr>
+    <td class='thead-dark'><strong>Banda</strong></td>
+    <td class='thead-dark'><strong><?php echo $Banda ?></strong></td>
+  </tr>
 </tbody>
 </table>
 </div>
