@@ -1,19 +1,16 @@
 <div class='row'>
-	<div class='col-md-2'>
-		<p><strong>N° de Etiqueta:</strong>  </p>
+	<div class='col-md-4'>
+		<p><strong>N° de Orden:</strong>  </p>
 	</div>
 				<!-- <div class='col-md-8 col-sm-8 col-xs-12'> -->
 	<div class='col-md-12 col-sm-12 col-xs-12' style="margin-bottom:5px;" id='contenedorImageQR'>
 		<img class='center-block' src="<?php echo base_url() ?>imagenes/yudica/logoYudica.png" alt="YUDICA NEUMATICOS" width="180" height="50">
 	</div>
-	<div class='col-md-12'>
+	<div class="col-md-2 col-md-offset-10">
 		<p> <?php echo date("d/m/Y") ?> </p>
 	</div>
 </div>
-<!-- <div class='row'>
-	<div class='col-md-4 col-sm-4'>
-		<p>Cliente: <?php// echo $Cliente ?> </p>
-	</div> -->
+
 </div>
 <div class='col-md-12 col-sm-12'>	
 <table class="table table-hover table-bordered table-sm" id="tabla">
