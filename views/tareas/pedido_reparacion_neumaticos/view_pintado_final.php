@@ -23,11 +23,11 @@
         <center>
             <h4 class="text-danger"> ¿Se Aprueba Trabajo? </h4>
             <label class="radio-inline">
-                <input type="radio" name="result" value="ok"
+                <input type="radio" name="result" id="Aprobar" value="ok"
                     onclick="ocultarForm();"> Aprobar
             </label>
             <label class="radio-inline">
-                <input id="rechazo" type="radio" name="" value=""
+                <input type="radio" name="result"  id="rechazo" value=""
                     onclick="mostrarForm();"> Rechazar
             </label>
         </center>
@@ -37,7 +37,7 @@
 <hr>
 <div id="form-dinamico" class="frm-new" data-form="7"></div>
 <br><br>
-<form id="generic_form"></form>
+<form id="generic_form">
     <div class="form-group">
      
 				<label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
@@ -60,6 +60,9 @@
 <button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 
 <script>
+$('#form-dinamico').hide();
+	$('#generic_form').hide();
+
 
 	function mostrarForm(){
 
@@ -68,7 +71,11 @@
 			initForm();
 
 			$('#form-dinamico').show();
-			$('#generic_form').show();
+
+
+			setTimeout(function(){ $('#generic_form').show() ; }, 8000);
+
+			
 
 			// oculta btn para imprimir
       $('#btnImpresion').hide();
@@ -76,6 +83,8 @@
 	}
 
 	function ocultarForm(){
+		$('#generic_form').hide();
+
 			$('#form-dinamico').hide();
 			$('#generic_form').hide();
 
@@ -84,10 +93,7 @@
 
 	}
 
-	$('#form-dinamico').hide();
-	$('#generic_form').hide();
-
-
+	
 
 	function cerrarTareaform(){
 			debugger;
@@ -184,7 +190,7 @@
   // Se peden hacer dos cosas: o un ajax con los datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
-
+debugger;
       if (band == 0) {
           // configuracion de codigo QR
           var config = {};
@@ -198,66 +204,26 @@
               arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
               arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
               arraydatos.Serie = $('#num_serie').val();
+              arraydatos.Num = $('#num_cubiertas').val();
+			 
+			  arraydatos.Zona = $('#zona').val();
+              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
           // agrega codigo QR al modal impresion
           getQR(config, arraydatos);
+
       }
       // llama modal con datos e img de QR ya ingresados
       verModalImpresion();
 
       band = 1;
-      //FIXME: DE ACA SACAR EL INFO ID PARA BUSCAR LA INFO CON EL OTRO SERVICIO
-      //var infoId = $('#form-dinamico-cabecera').attr('data-frm-id');
   }
 
   function armarInfo(arraydatos){
 
-    var d = new Date();
-    var month = d.getMonth()+1;
-    var day = d.getDate();
-    var fecha_actual = ((''+day).length<2 ? '0' : '') + day + '/' +
-        ((''+month).length<2 ? '0' : '') + month + '/' +
-        d.getFullYear();
-
-    var num = $('#num_cubiertas').val();
-
-    var html =
-
-          "<div class'row'>" +
-                  "<div class='col-md-2'>" +
-                    "<p>" + num + "</p>" +
-                  "</div>" +
-                  //"<div class='col-md-8 col-sm-8 col-xs-12'>" +
-                  "<div class='col-md-8 col-sm-8 center-block'>" +
-                    "<h3 class='center-block'>YUDICA NEUMATICOS</h3>"+
-                  "</div>" +
-                  "<div class='col-md-2'>" +
-                    "<p>" + fecha_actual + "</p>"+
-                  "</div>" +
-              "</div>" +
-          "</div>" +
-          "<table class='table table-bordered table-striped'>"+
-              "<thead class='thead-dark' bgcolor='#eeeeee'>" +
-                "<th>Cliente</th>" +
-                "<th>Medida</th>" +
-                "<th>Marca</th>" +
-                "<th>Serie</th>" +
-              "</thead>" +
-              "<tbody>" +
-                "<tr>" +
-                  "<td>" + arraydatos.Cliente + "</td>" +
-                  "<td>" + arraydatos.Medida + "</td>" +
-                  "<td>" + arraydatos.Marca + "</td>" +
-                  "<td>" + arraydatos.Serie + "</td>" +
-                "</tr>" +
-              "</tbody>" +
-          "</table>" +
-          "<br>"+
-          "<div class='d-flex justify-content-center'>" +
-          //  "<h1 class='text-center'>RECHAZADA</h1>" +
-          "</div>";
-
-    $("#infoEtiqueta").append(html);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajo", arraydatos);
+    $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFooter");
   }
 </script>
