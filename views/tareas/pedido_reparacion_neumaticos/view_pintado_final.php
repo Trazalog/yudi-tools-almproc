@@ -212,7 +212,7 @@ debugger;
           // info para grabar en codigo QR
           armarInfo(arraydatos);
           // agrega codigo QR al modal impresion
-          getQR(config, arraydatos);
+          getQR(config, arraydatos, 'codigosQR/Traz-comp-Yudica');
 
       }
       // llama modal con datos e img de QR ya ingresados
