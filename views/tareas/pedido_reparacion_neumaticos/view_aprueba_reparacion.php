@@ -33,10 +33,13 @@ input[type=radio]{
 
     <br>
  
-    <div id="motivo" class="form-group motivo">
-        <textarea class="form-control" id="motivo_rechazo" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
-    </div>
+    <!-- <div id="motivo" class="form-group motivo"> -->
+        <!-- <textarea class="form-control" id="motivo_rechazo" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea> -->
+       
+    <!-- </div> -->
 </form>
+<div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
+
 <h4 id="titulo">Seleccione Parche a Utilizar <small></small></h4>
 <div id="form-dinamico" class="frm-new" data-form="9"></div>
 
@@ -71,7 +74,7 @@ input[type=radio]{
           <tbody>
             <tr>
               <td><input id="num_cubiertas" name="num_cubiertas" type="text" value="" class="form-control input-md"></td>
-              <td><input id="num_pedido" name="num_pedido" type="text" value="14141" class="form-control input-md"></td>
+              <td><input id="num_pedido" name="num_pedido" type="text" value="" class="form-control input-md"></td>
               <td><input id="medidas_yudica" name="medidas_yudica" type="text" value="" class="form-control input-md"></td>
               <td><input id="marca_yudica" name="marca_yudica" type="text" value="" class="form-control input-md"></td>
               <td><input id="num_serie" name="num_serie" type="text" value="" class="form-control input-md"></td>
@@ -96,7 +99,7 @@ input[type=radio]{
 <script>
 
   function getFormData(){
-
+debugger;
     var array_form = {};
     $('#form-dinamico-cabecera').find(':input').each(function() {
       array_form[this.name] = this.value;
@@ -105,43 +108,7 @@ input[type=radio]{
 
     $.each(array_form, function( index, value ) {
         console.log( index + ": " + value );
-        //debugger;
-
-
-        // if (index =="num_cubiertas" ) {
-
-        //     $('#num_cubiertas').val(value);
-
-        // } 
-        // if else (index =="medidas_yudica" ) {
-
-        // $('#medidas_yudica').val(value);
-
-        // } 
-
-        // if else (index =="marca_yudica" ) {
-
-        // $('#marca_yudica').val(value);
-
-        // }
-
-        // if else (index =="num_serie" ) {
-
-        // $('#num_serie').val(value);
-
-        // } 
-
-        // if else (index =="banda_yudica" ) {
-
-        // $('#banda_yudica').val(value);
-
-        // } 
-
-        // else {
-
-        // }
-
-      
+ 
     });
 
 
@@ -172,7 +139,12 @@ input[type=radio]{
 
   function ocultarForm(){
 
-      $('#motivo').show();
+    detectarForm();
+    initForm();
+
+     // $('#motivo').show();
+      $('#form-dinamico-rechazo').show();
+    
       $('#comprobante').show();
       $('#hecho').prop('disabled',false);
       $('#form-dinamico').hide();
@@ -185,16 +157,23 @@ input[type=radio]{
   $('#form-dinamico').hide();
   $('#titulo').hide();
   $('#comprobante').hide();
-  $('#motivo').hide();
+   // $('#motivo').show();
+   $('#form-dinamico-rechazo').show();
+
   $('#btnImpresion').hide();
 
 
   function cerrarTarea() {
-
+debugger;
       var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+      var frm_info_id_rechazo = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
 
       if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
-          alert('Completar Motivo de Rechazo');
+        Swal.fire(
+                'Error!',
+                'Por favor complete el campo Motivo de Rechazo...',
+                'error'
+            )
           return;
       }
 
@@ -246,7 +225,12 @@ input[type=radio]{
       // si es rechazado el pedido debe llenar el input motivo
       var rechazo = $("#motivo_rechazo").val();
       if (rechazo == undefined) {
-        alert('Por favor complete el campo Motivo de Rechazo...');
+        Swal.fire(
+                'Error!',
+                'Por favor complete el campo Motivo de Rechazo...',
+                'error'
+            )
+      
         return;
       }
 
