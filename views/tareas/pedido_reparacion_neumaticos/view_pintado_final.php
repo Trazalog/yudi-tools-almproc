@@ -190,16 +190,18 @@ $('#form-dinamico').hide();
   // Se peden hacer dos cosas: o un ajax con los datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
+	  //supongo que entra
 debugger;
       if (band == 0) {
           // configuracion de codigo QR
           var config = {};
               config.titulo = "Pintado y Acabado Final";
-              config.pixel = "5";
-              config.level = "L";
+              config.pixel = "2";
+              config.level = "S";
               config.framSize = "2";
           // info para immprimir
           var arraydatos = {};
+		 	  arraydatos.N_orden = $('#petr_id').val();
               arraydatos.Cliente = $('#cliente').val();
               arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
               arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
@@ -207,8 +209,12 @@ debugger;
               arraydatos.Num = $('#num_cubiertas').val();
 			 
 			  arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+              arraydatos.Trabajo = $('#tipo_proyecto').val();
               arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+			  
+			// si la etiqueta es derechazo
+		    arraydatos.Motivo = $('#motivo_rechazo').val();
+
           // info para grabar en codigo QR
           armarInfo(arraydatos);
           // agrega codigo QR al modal impresion

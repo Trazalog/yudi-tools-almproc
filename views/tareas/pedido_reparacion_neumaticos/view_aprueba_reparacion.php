@@ -116,22 +116,14 @@ debugger;
 
   getFormData();
 
-  //$('#tbl_comprobante').append('<tr><td></td><td >'+ config[this.name]+'</td><td>'+ config[this.name]+'</td><td>'+ config[this.name]+'</td></tr>')
-</script>
-
-<script>
-
-
-
   function mostrarForm(){
 
       detectarForm();
       initForm();
 
-
       $('#form-dinamico').show();
       $('#titulo').show();
-      $('#motivo').hide();
+      $('#form-dinamico-rechazo').hide();
       $('#comprobante').hide();
       // oculta btn para imprimir
       $('#btnImpresion').hide();
@@ -177,10 +169,16 @@ debugger;
           return;
       }
 
+      if ( $("#rechazo").is(":checked")) {
+		debugger;
+////////////////////////////////////////////////////////////////
+
       var id = $('#taskId').val();
       console.log(id);
 
-      var dataForm = new FormData($('#generic_form')[0]);
+     // var dataForm = new FormData($('#form-dinamico-rechazo')[0]);
+
+     var dataForm = new FormData($('#generic_form')[0]);
 
       dataForm.append('taskId', $('#taskId').val());
 
@@ -213,6 +211,50 @@ debugger;
           }
       });
 
+
+      } else{
+
+        debugger;
+      
+      var id = $('#taskId').val();
+      console.log(id);
+
+      var dataForm = new FormData($('#generic_form')[0]);
+
+      dataForm.append('taskId', $('#taskId').val());
+
+      dataForm.append('frm_info_id', frm_info_id);
+
+      $.ajax({
+          type: 'POST',
+          data: dataForm,
+          cache: false,
+          contentType: false,
+          processData: false,
+          url: '<?php  base_url() ?>index.php/<?php  echo BPM ?>Proceso/cerrarTarea/' + id,
+          success: function(data) {
+              //wc();
+          //   back();
+          linkTo('<?php  echo BPM ?>Proceso/');
+
+          setTimeout(() => {
+              Swal.fire(
+                  
+                      'Perfecto!',
+                      'Se Finalizó la Tarea Correctamente!',
+                      'success'
+                  )
+      }, 6000);
+      
+          },
+          error: function(data) {
+              alert("Error");
+          }
+      });
+
+      }
+
+    
   }
 </script>
 
@@ -235,14 +277,16 @@ debugger;
       }
 
       if (band == 0) {
+        debugger;
           // configuracion de codigo QR
           var config = {};
               config.titulo = "Revision Inicial";
-              config.pixel = "5";
-              config.level = "L";
+              config.pixel = "2";
+              config.level = "S";
               config.framSize = "2";
           // info para immprimir  medidas_yudica
           var arraydatos = {};
+              arraydatos.N_orden = $('#petr_id').val();
               arraydatos.Cliente = $('#cliente').val();
               arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
               arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
@@ -252,6 +296,9 @@ debugger;
               arraydatos.Zona = $('#zona').val();
               arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
               arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+
+              // si la etiqueta es derechazo
+              arraydatos.Motivo = $('#motivo_rechazo').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
       }
