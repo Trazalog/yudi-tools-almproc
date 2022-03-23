@@ -29,9 +29,13 @@ class Yudiproctareas extends CI_Model
 
         
         if(isset($case_id)){
+            $aux = new StdClass();
+            $aux->color = 'info'; //primary //secondary // success // danger // warning // info // light // dark //white 
+            $aux->texto = "N° Orden:  $aux_pedido->petr_id";
+            $array['info'][] = $aux;
             
             $aux = new StdClass();
-            $aux->color = 'success'; //primary //secondary // success // danger // warning // info // light // dark //white 
+            $aux->color = 'success'; 
             $aux->texto = "N° Codigo:  $aux_pedido->cod_proyecto";
             $array['info'][] = $aux;
 
