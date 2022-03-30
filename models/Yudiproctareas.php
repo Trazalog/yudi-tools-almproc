@@ -256,6 +256,29 @@ public function guardarForms($data)
      
             
         log_message('DEBUG', 'YUDI Reparacion -Escariado');
+
+        $data['_post_pedidotrabajo_tarea_form'] = array(
+        
+            "nom_tarea" => "$nom_tarea",
+            "task_id" => $task_id,
+            "usuario_app" => $user_app,
+            "case_id" => $case_id,
+            "info_id" => $form['frm_info_id']
+           
+    
+        );
+    
+    
+        $rsp = $this->Yudiproctareas->guardarForms($data);
+    
+        if (!$rsp) {
+    
+            log_message('ERROR', '#TRAZA | #BPM >> guardarForms asociado a la tarea >> ERROR AL GUARDAR FORM - Reparacion -Escariado');
+    
+        } else {
+            log_message('DEBUG', '#TRAZA | #BPM >> guardarForms asociado a la tarea >> GUARDADO OK FORM - Reparacion -Escariado');
+    
+        }
     
                $contrato["apruebaEscariado"]  = $form['result'];
               

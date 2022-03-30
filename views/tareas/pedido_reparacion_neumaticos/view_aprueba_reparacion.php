@@ -20,7 +20,7 @@ input[type=radio]{
         <center>
             <h3 class="text-danger"> ¿Se Aprueba Trabajo? </h3>
             <label class="radio-inline">
-                <input type="radio" name="result" value="true"
+                <input id="aprobar" type="radio" name="result" value="true"
                     onclick="mostrarForm();"> Aprobar
             </label>
             <label class="radio-inline">
@@ -33,10 +33,6 @@ input[type=radio]{
 
     <br>
  
-    <!-- <div id="motivo" class="form-group motivo"> -->
-        <!-- <textarea class="form-control" id="motivo_rechazo" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea> -->
-       
-    <!-- </div> -->
 </form>
 <div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
 
@@ -155,12 +151,67 @@ debugger;
   $('#btnImpresion').hide();
 
 
+  function cerrarTareaform(){
+    debugger;
+
+    if ( $("#rechazo").is(":checked")) {
+	
+    var bandera = true ;
+
+
+    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+        Swal.fire(
+					'Oops...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+                bandera = false;
+       return bandera;
+			}
+
+    else{
+
+    $('#form-dinamico-rechazo .frm-save').click();
+        var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
+        console.log('info_id:' + info_id);
+         console.log('Formulario Guardado con exito -function cerrarTareaform');
+        }
+
+        return bandera; 
+  }
+  else if ( $("#aprobar").is(":checked")) {
+    debugger;
+    var bandera = true ;
+
+      if (!frm_validar('#form-dinamico')) {
+
+        console.log("Error al guardar Formulario");
+          Swal.fire(
+            'Oops...',
+            'Debes completar los campos Obligatorios (*)',
+            'error'
+          )
+      bandera = false;
+        return bandera;
+
+      }
+      else{
+
+      $('#form-dinamico .frm-save').click();
+          var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+          console.log('info_id:' + info_id);
+          console.log('Formulario Guardado con exito -function cerrarTareaform');
+          }
+
+          return bandera; 
+
+    }
+}
+
   function cerrarTarea() {
 debugger;
-      var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-      var frm_info_id_rechazo = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
-
-      if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
+     
+      if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
         Swal.fire(
                 'Error!',
                 'Por favor complete el campo Motivo de Rechazo...',
@@ -171,18 +222,23 @@ debugger;
 
       if ( $("#rechazo").is(":checked")) {
 		debugger;
-////////////////////////////////////////////////////////////////
+
+ var gardado = cerrarTareaform();
+
+    if(!gardado){
+     return;
+    }
 
       var id = $('#taskId').val();
       console.log(id);
 
-     // var dataForm = new FormData($('#form-dinamico-rechazo')[0]);
+      var frm_info_id_rechazo = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
 
      var dataForm = new FormData($('#generic_form')[0]);
 
       dataForm.append('taskId', $('#taskId').val());
 
-      dataForm.append('frm_info_id', frm_info_id);
+      dataForm.append('frm_info_id', frm_info_id_rechazo);
 
       $.ajax({
           type: 'POST',
@@ -214,7 +270,16 @@ debugger;
 
       } else{
 
+        var gardado = cerrarTareaform();
+
+if(!gardado){
+ return;
+}
+
         debugger;
+
+      var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+     
       
       var id = $('#taskId').val();
       console.log(id);

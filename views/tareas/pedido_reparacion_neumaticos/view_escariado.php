@@ -3,6 +3,9 @@
     $this->load->view( COD.'componentes/modal');
 ?>
 <style>
+.frm-save {
+    display: none;
+}
 input[type=radio]{
   transform:scale(1.6);
 }
@@ -18,41 +21,107 @@ input[type=radio]{
             <h3 class="text-danger"> ¿Continua Trabajo? </h3>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
-                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false); $('#btnImpresion').hide();"> Si
+                    onclick="$('#form-dinamico-rechazo').hide();$('#hecho').prop('disabled',false); $('#btnImpresion').hide();"> Si
             </label>
-            <label class="radio-inline">
+            <!-- <label class="radio-inline">
                 <input id="rechazo" type="radio" name="result" value="false"
                     onclick="$('#motivo').show();$('#hecho').prop('disabled',false); $('#btnImpresion').show();"> No
+            </label> -->
+            <label class="radio-inline">
+                <input id="rechazo" type="radio" name="result" value="false"
+                    onclick="ocultarForm()"> Rechazar
             </label>
         </center>
     </div>
 
-    <div id="motivo" class="form-group motivo">
+    <!-- <div id="motivo" class="form-group motivo">
         <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
-    </div>
+    </div> -->
 </form>
-
+<div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
+<br><br>
 <button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 <br><br><br>
+
 <script>
 
-	$('#motivo').hide();
-	$('#hecho').prop('disabled', true);
+  $('#titulo').hide();
+  $('#comprobante').hide();
+   // $('#motivo').show();
+  $('#form-dinamico-rechazo').hide();
+
+  $('#btnImpresion').hide();
+
+	// $('#motivo').hide();
+	// $('#hecho').prop('disabled', true);
+
+function ocultarForm(){
+
+detectarForm();
+initForm();
+
+ // $('#motivo').show();
+  $('#form-dinamico-rechazo').show();
+
+  $('#comprobante').show();
+  $('#hecho').prop('disabled',false);
+  $('#form-dinamico').hide();
+  $('#titulo').hide();
+  // muestra btn para imprimir
+  $('#btnImpresion').show();
+
+}
+
+function cerrarTareaform(){
+    debugger;
+    var bandera = true ;
+
+    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+        Swal.fire(
+					'Oops...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+                bandera = false;
+       return bandera;
+			}
+
+    else{
+
+    $('#form-dinamico-rechazo .frm-save').click();
+        var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
+        console.log('info_id:' + info_id);
+         console.log('Formulario Guardado con exito -function cerrarTareaform');
+        }
+
+        return bandera; 
+  }
 
 
 	function cerrarTarea() {
 			debugger;
-			if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
+			if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
 					alert('Completar Motivo de Rechazo');
 					return;
 			}
+		
+   var gardado = cerrarTareaform();
 
-			var id = $('#taskId').val();
-			console.log(id);
+    if(!gardado){
+     return;
+    }
 
-			var dataForm = new FormData($('#generic_form')[0]);
+    var id = $('#taskId').val();
+	console.log(id);
 
-			dataForm.append('taskId', $('#taskId').val());
+
+    var frm_info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
+
+    var dataForm = new FormData($('#generic_form')[0]);
+   
+    dataForm.append('frm_info_id', frm_info_id);
+
+	dataForm.append('taskId', $('#taskId').val());
 
 			$.ajax({
 					type: 'POST',
@@ -95,33 +164,49 @@ input[type=radio]{
   // armar con los datos de la pantalla
   function modalCodigos(){
 
-      if (band == 0) {
-          // configuracion de codigo QR
-          var config = {};
-              config.titulo = "Revision Inicial";
-              config.pixel = "5";
-              config.level = "L";
-              config.framSize = "2";
-          // info para immprimir
-          var arraydatos = {};
-              arraydatos.Cliente = $('#cliente').val();
-              arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
-              arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
-              arraydatos.Serie = $('#num_serie').val();
-              arraydatos.Num = $('#num_cubiertas').val();
-              
-              arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
-              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
-          // info para grabar en codigo QR
-          armarInfo(arraydatos);
-      }
-      // llama modal con datos e img de QR ya ingresados
-      verModalImpresion();
+// si es rechazado el pedido debe llenar el input motivo
+var rechazo = $("#motivo_rechazo").val();
+if (rechazo == undefined) {
+  Swal.fire(
+          'Error!',
+          'Por favor complete el campo Motivo de Rechazo...',
+          'error'
+      )
 
-      band = 1;
-  }
+  return;
+}
 
+if (band == 0) {
+  debugger;
+    // configuracion de codigo QR
+    var config = {};
+        config.titulo = "Revision Inicial";
+        config.pixel = "2";
+        config.level = "S";
+        config.framSize = "2";
+    // info para immprimir  medidas_yudica
+    var arraydatos = {};
+        arraydatos.N_orden = $('#petr_id').val();
+        arraydatos.Cliente = $('#cliente').val();
+        arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
+        arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
+        arraydatos.Serie = $('#num_serie').val();
+        arraydatos.Num = $('#num_cubiertas').val();
+
+        arraydatos.Zona = $('#zona').val();
+        arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+        arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+
+        // si la etiqueta es derechazo
+        arraydatos.Motivo = $('#motivo_rechazo').val();
+    // info para grabar en codigo QR
+    armarInfo(arraydatos);
+}
+// llama modal con datos e img de QR ya ingresados
+verModalImpresion();
+
+band = 1;
+}
   function armarInfo(arraydatos){
 
     $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/rechazado", arraydatos);
