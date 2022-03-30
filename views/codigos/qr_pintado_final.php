@@ -10,19 +10,43 @@
 		<p> <?php echo date("d/m/Y") ?> </p>
 	</div>
 </div>
+
+
 <table class='table table-bordered table-striped'>
-		<thead class='thead-dark' bgcolor='#eeeeee'>
-			<th>Cliente</th>
-			<th>Medida</th>
-			<th>Marca</th>
-			<th>Serie</th>
-		</thead>
-		<tbody>
-			<tr>
-				<td> <?php echo $Cliente ?> </td>
-				<td> <?php echo $Medida ?> </td>
-				<td> <?php echo $Marca ?> </td>
-				<td> <?php echo $Serie ?> </td>
-			</tr>
-		</tbody>
+<thead>
+  <tr>
+    <th class='thead-dark'>Cliente</th>
+    <th class='thead-dark'><?php echo $Cliente ?></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>	
+    <td class='thead-dark'><strong>Zona</strong></td>
+    <td class='thead-dark'><strong><?php echo $Zona ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Medida</strong></td>
+    <td class='thead-dark'><strong><?php echo $Medida ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Marca</strong></td>
+    <td class='thead-dark'><strong><?php echo $Marca ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Serie / N° interno</strong></td>
+    <td class='thead-dark'><strong><?php echo $Serie ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Trabajo</strong></td>
+    <td class='thead-dark'><strong><?php echo $Trabajo ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Cantidad</strong></td>
+    <td class='thead-dark'><strong><?php echo $Num ?></strong></td>
+  </tr>
+  <tr>
+    <td class='thead-dark'><strong>Banda</strong></td>
+    <td class='thead-dark'><strong><?php echo $Banda ?></strong></td>
+  </tr>
+</tbody>
 </table>
