@@ -166,7 +166,7 @@ function cerrarTareaform(){
 
 // si es rechazado el pedido debe llenar el input motivo
 var rechazo = $("#motivo_rechazo").val();
-if (rechazo == undefined) {
+if ((rechazo == undefined) || (rechazo == "")) {
   Swal.fire(
           'Error!',
           'Por favor complete el campo Motivo de Rechazo...',
@@ -194,7 +194,7 @@ if (band == 0) {
         arraydatos.Num = $('#num_cubiertas').val();
 
         arraydatos.Zona = $('#zona').val();
-        arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+        arraydatos.Trabajo = $('#tipo_proyecto').val();
         arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
 
         // si la etiqueta es derechazo
@@ -209,6 +209,6 @@ band = 1;
 }
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/rechazado", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infocodigo/rechazado", arraydatos);
   }
 </script>

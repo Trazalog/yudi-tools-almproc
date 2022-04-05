@@ -359,7 +359,7 @@ if(!gardado){
               arraydatos.Num = $('#num_cubiertas').val();
 
               arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
+              arraydatos.Trabajo = $('#tipo_proyecto').val();
               arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
 
               // si la etiqueta es derechazo
