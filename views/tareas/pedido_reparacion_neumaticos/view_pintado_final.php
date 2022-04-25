@@ -229,7 +229,7 @@ debugger;
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajo", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFinal", arraydatos);
     $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFooter");
   }
 </script>
