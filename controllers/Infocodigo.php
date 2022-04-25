@@ -36,6 +36,17 @@ class Infocodigo extends CI_Controller {
 				$this->load->view('codigos/qr_rechazado', $data);
 		}
 
+			/**
+		*  Devuelve vista para impresion de codigo QR de la tarea Pedido de Trabajo
+		* @param array con datos para modal
+		* @return view
+		*/
+		function pedidoTrabajoFinal()
+		{
+			$data = $this->input->post();
+			$this->load->view('codigos/qr_pintado_final', $data);
+		}
+
 		/**
 		* Devuelve footer para impresion de codigo QR de la tarea revision inicial
 		* @param array con datos de la view
