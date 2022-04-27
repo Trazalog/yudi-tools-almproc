@@ -22,7 +22,7 @@
               width: 350px ;
               height: 400px ;
               border: 0,5px solid #000 ;
-              
+              font-size: 20px;
               }
 
 </style>
@@ -39,9 +39,9 @@
 <div class='col-md-6 col-sm-6'>	
 <table class="table table-hover table-bordered table-sm" id="tabla">
 <thead>
-  <tr id='tr_tabla'>
-    <th id='tabla_th'><strong>Cliente</strong></th>
-    <th class='thead-dark' id='tr_tabla'><strong><p id='nombreCliente'><?php echo $Cliente ?></p></strong></th>
+  <tr>
+    <td><strong>Cliente</strong></td>
+    <td class='thead-dark'><strong><p><?php echo $Cliente ?></p></strong></td>
   </tr>
 </thead>
 <tbody>
