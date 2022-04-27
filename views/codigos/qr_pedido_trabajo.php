@@ -13,17 +13,24 @@
 
               #contenedorImagenYudi{
                 padding-top: -20% ;
-                padding-left: 68% ;
+                padding-left: 72% ;
                 padding-bottom: 0% ;
               } 
 
-              #tabla  {
+             #tabla  {
               margin-top: -20%;
               width: 250px ;
               height: 100px ;
-              border: 0,5px solid #000 ;
-              
+              border: 1px solid #000 ;
+              font-size: 16px ;
+              } 
+
+              #codigoImage{
+                padding-top: -20% ;
+                 padding-bottom: 0% ; 
+                padding-left: 70% ;
               }
+           
 
 </style>
 <div class='row'>
@@ -39,9 +46,9 @@
 <div class='col-md-6 col-sm-6'>	
 <table class="table table-hover table-bordered table-sm" id="tabla">
 <thead>
-  <tr id='tr_tabla'>
-    <th id='tr_tabla'><strong>Cliente</strong></th>
-    <th class='thead-dark' id='tr_tabla'><strong><p id='nombreCliente'><?php echo $Cliente ?></p></strong></th>
+  <tr>
+    <td class='thead-dark'><strong>Cliente</strong></td>
+    <td class='thead-dark'><strong><p><?php echo $Cliente ?></p></strong></td>
   </tr>
 </thead>
 <tbody>
