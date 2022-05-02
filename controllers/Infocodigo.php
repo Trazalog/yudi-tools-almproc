@@ -36,6 +36,17 @@ class Infocodigo extends CI_Controller {
 				$this->load->view('codigos/qr_rechazado', $data);
 		}
 
+			/**
+		*  Devuelve vista para impresion de codigo QR de la tarea Pedido de Trabajo
+		* @param array con datos para modal
+		* @return view
+		*/
+		function pedidoTrabajoFinal()
+		{
+			$data = $this->input->post();
+			$this->load->view('codigos/qr_pintado_final', $data);
+		}
+
 		/**
 		* Devuelve footer para impresion de codigo QR de la tarea revision inicial
 		* @param array con datos de la view
@@ -61,12 +72,30 @@ class Infocodigo extends CI_Controller {
 					case 'zona':
 						$datos['Zona'] = $value->valor;
 						break;
+
 					case 'marca_yudica':
-								$datos['Marca'] = $value->valor;
+							$valor= $value->valor;
+							$resultado_str = str_replace("777-marca_yudica", "", $valor);	
+
+							$datos['Marca'] = $resultado_str;
 								break;
+
 					case 'medidas_yudica':
-								$datos['Medida'] = $value->valor;
+						$valor= $value->valor;
+						$resultado_str = str_replace("777-medidas_yudica", "", $valor);	
+					
+						$datos['Medida'] = $resultado_str;
 								break;
+
+					case 'banda_yudica':
+						
+						$valor= $value->valor;
+						$resultado_str = str_replace("777-banda_yudica", "", $valor);	
+						
+						$datos['Banda'] = $resultado_str;
+						break;
+							
+
 					case 'num_serie':
 								$datos['Serie'] = $value->valor;
 								break;
@@ -78,10 +107,6 @@ class Infocodigo extends CI_Controller {
 									$datos['Trabajo'] = $value->valor;
 									break;
 
-						case 'banda_yudica':
-									$datos['Banda'] = $value->valor;
-									break;
-							
 						default:
 
 								break;

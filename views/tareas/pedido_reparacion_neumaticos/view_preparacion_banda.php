@@ -8,31 +8,44 @@
 <h3>Cabina <small>Detalle</small></h3>
 <hr>
 
-<!-- <form id="generic_form">
-    <div class="form-group">
-        <center>
-            <h4 class="text-danger"> ¿Se Aprueba o Rechaza el Pedido de Materiales? </h4>
-            <label class="radio-inline">
-                <input type="radio" name="result" value="true"
-                    onclick="$('#motivo').hide();$('#hecho').prop('disabled',false);"> Aprobar
-            </label>
-            <label class="radio-inline">
-                <input id="rechazo" type="radio" name="result" value="false"
-                    onclick="$('#motivo').show();$('#hecho').prop('disabled',false);"> Rechazar
-            </label>
-        </center>
-    </div>
-
-    <div id="motivo" class="form-group motivo">
-        <textarea class="form-control" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
-    </div>
-</form> -->
 <div id="form-dinamico" class="frm-new" data-form="6"></div>
 
 <script>
 
 detectarForm();
 initForm();
+
+
+$('#view').ready(function() {
+wo();
+    alertify.success("Cargando datos en la vista aguarde...");
+    
+    setTimeout(function() {
+        wc();    
+        tomarDatos();
+}, 9000);
+   
+    
+});
+
+
+function tomarDatos(){
+    debugger
+$('select[name="tipo_banda"]').val($('select[name="banda_yudica"]').val()).trigger('change');
+
+$('select[name="medida"]').val($('select[name="medidas_yudica"]').val()).trigger('change');
+
+$('select[name="marca"]').val($('select[name="marca_yudica"]').val()).trigger('change');
+$('#motivo_cambio').hide();
+
+}
+
+
+$('#view').on('select2:select', function (e) {
+    $('#motivo_cambio').show();
+});
+
+
 
 function cerrarTareaform(){
     debugger;

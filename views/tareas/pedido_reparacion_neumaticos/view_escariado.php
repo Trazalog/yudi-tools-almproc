@@ -166,7 +166,7 @@ function cerrarTareaform(){
 
 // si es rechazado el pedido debe llenar el input motivo
 var rechazo = $("#motivo_rechazo").val();
-if (rechazo == undefined) {
+if ((rechazo == undefined) || (rechazo == "")) {
   Swal.fire(
           'Error!',
           'Por favor complete el campo Motivo de Rechazo...',
@@ -188,14 +188,14 @@ if (band == 0) {
     var arraydatos = {};
         arraydatos.N_orden = $('#petr_id').val();
         arraydatos.Cliente = $('#cliente').val();
-        arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
-        arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
+        arraydatos.Medida = $('select[name="medidas_yudica"]').select2('data')[0].text;
+        arraydatos.Marca = $('select[name="marca_yudica"]').select2('data')[0].text;
         arraydatos.Serie = $('#num_serie').val();
         arraydatos.Num = $('#num_cubiertas').val();
 
         arraydatos.Zona = $('#zona').val();
-        arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
-        arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+        arraydatos.Trabajo = $('#tipo_proyecto').val();
+        arraydatos.Banda = $('select[name="banda_yudica"]').select2('data')[0].text;
 
         // si la etiqueta es derechazo
         arraydatos.Motivo = $('#motivo_rechazo').val();
@@ -209,6 +209,6 @@ band = 1;
 }
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infoCodigo/rechazado", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/infocodigo/rechazado", arraydatos);
   }
 </script>
