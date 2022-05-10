@@ -34,11 +34,10 @@ input[type=radio]{
     <br>
  
 </form>
-<div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
 
 <h4 id="titulo">Seleccione Parche a Utilizar <small></small></h4>
 <div id="form-dinamico" class="frm-new" data-form="9"></div>
-
+<div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
 
 <button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 
@@ -167,11 +166,11 @@ debugger;
 				)
                 bandera = false;
        return bandera;
-			}
+	 		}
 
     else{
-
-    $('#form-dinamico-rechazo .frm-save').click();
+     $('#form-dinamico-rechazo .frm').attr('id','rechazo-form'); 
+    frmGuardar($('#form-dinamico-rechazo.frm-new').find('form'),false,false);
         var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
         console.log('info_id:' + info_id);
          console.log('Formulario Guardado con exito -function cerrarTareaform');
@@ -196,8 +195,7 @@ debugger;
 
       }
       else{
-
-      $('#form-dinamico .frm-save').click();
+      frmGuardar($('#form-dinamico.frm-new').find('form'),false,false);
           var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
           console.log('info_id:' + info_id);
           console.log('Formulario Guardado con exito -function cerrarTareaform');
@@ -228,7 +226,8 @@ debugger;
     if(!gardado){
      return;
     }
-
+    console.log('chuka tarea cerrada')
+return;
       var id = $('#taskId').val();
       console.log(id);
 
