@@ -36,13 +36,13 @@ $('select[name="tipo_banda"]').val($('select[name="banda_yudica"]').val()).trigg
 $('select[name="medida"]').val($('select[name="medidas_yudica"]').val()).trigger('change');
 
 $('select[name="marca"]').val($('select[name="marca_yudica"]').val()).trigger('change');
-$('#motivo_cambio').hide();
+$('#motivo_cambio').closest('div').hide();
 
 }
 
 
 $('#view').on('select2:select', function (e) {
-    $('#motivo_cambio').show();
+    $('#motivo_cambio').closest('div').show();
 });
 
 
