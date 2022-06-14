@@ -95,9 +95,9 @@ $('#form-dinamico').hide();
 
 	//validar campos obligatorios del formulario dinamico
 	function ValidarCampos(){
-
+debugger;
 		var bandera = true ;
-	
+if ( $("#rechazo").is(":checked")) {
 		if ( $('input[name="bordes"]:checked').length == 0) {
 		
 		console.log("Error campos Obligatorios");
@@ -173,20 +173,20 @@ $('#form-dinamico').hide();
 
 		}
 
-		else if ( $('input[name="pintado"]:checked').length == 0) {
+		// else if ( $('input[name="pintado"]:checked').length == 0) {
 			
-			console.log("Error campos Obligatorios");
-				Swal.fire(
-					'Error...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
+		// 	console.log("Error campos Obligatorios");
+		// 		Swal.fire(
+		// 			'Error...',
+		// 			'Debes completar los campos Obligatorios (*)',
+		// 			'error'
+		// 		)
 
-			bandera = false;
+		// 	bandera = false;
 			
-			return bandera;
+		// 	return bandera;
 
-		}
+		// }
 		
 		else if ( $('#result option:selected').val() == 0) {
 		
@@ -203,7 +203,7 @@ $('#form-dinamico').hide();
 
 		}
 	}
-
+}
 	function cerrarTareaform(){
 			debugger;
 		
@@ -215,7 +215,7 @@ $('#form-dinamico').hide();
 					'error'
 				)
 
-				return;
+				return false;
 
 			}
 			 else{
@@ -224,6 +224,9 @@ $('#form-dinamico').hide();
 			var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
 			console.log('info_id:' + info_id);
 			console.log('Formulario Guardado con exito -function cerrarTareaform');
+
+			
+			return true;
 
 			}
 		
