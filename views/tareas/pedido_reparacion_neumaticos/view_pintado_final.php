@@ -43,8 +43,8 @@
 				<label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
 
 				<div class="col-md-6">
-						<select id="" name="result" class="form-control" required>
-								<option value="" disabled selected> - Seleccionar Paso del Proceso- </option>
+						<select id="result" name="result" class="form-control" required>
+								<option value="0" disabled selected> - Seleccionar Paso del Proceso- </option>
 								<option value="SCRAP"> - SCRAP - </option>
 								<option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
 								<option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
@@ -93,33 +93,147 @@ $('#form-dinamico').hide();
 
 	}
 
-	
-
-	function cerrarTareaform(){
-			debugger;
-			var bandera = true ;
-
-			if (!frm_validar('#form-dinamico')) {
+	//validar campos obligatorios del formulario dinamico
+	function ValidarCampos(){
+debugger;
+		var bandera = true ;
+if ( $("#rechazo").is(":checked")) {
+		if ( $('input[name="bordes"]:checked').length == 0) {
 		
-				console.log("Error al guardar Formulario");
-					Swal.fire(
-						'Oops...',
-						'Debes completar los campos Obligatorios (*)',
-						'error'
-					)
+		console.log("Error campos Obligatorios");
+			Swal.fire(
+				'Error...',
+				'Debes completar los campos Obligatorios (*)',
+				'error'
+			)
+		
 		bandera = false;
+		
+		return bandera;
+
+	}
+
+	else if ( $('input[name="parche_pegado"]:checked').length == 0) {
+
+	console.log("Error campos Obligatorios");
+		Swal.fire(
+			'Error...',
+			'Debes completar los campos Obligatorios (*)',
+			'error'
+		)
+
+		bandera = false;
+		
+		return bandera;
+
+		}	
+
+		else if ( $('input[name="globos"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
 				return bandera;
 
+		}
+
+		else if ( $('input[name="tajeada"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+
+		else if ( $('input[name="extremos_pegados"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+
+		// else if ( $('input[name="pintado"]:checked').length == 0) {
+			
+		// 	console.log("Error campos Obligatorios");
+		// 		Swal.fire(
+		// 			'Error...',
+		// 			'Debes completar los campos Obligatorios (*)',
+		// 			'error'
+		// 		)
+
+		// 	bandera = false;
+			
+		// 	return bandera;
+
+		// }
+		
+		else if ( $('#result option:selected').val() == 0) {
+		
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes seleccione paso del proceso al que desea volver',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+	}
+}
+	function cerrarTareaform(){
+			debugger;
+		
+			if (ValidarCampos() == false) {
+				
+				Swal.fire(
+					'Error...',
+					'Validando Campos Obligatorios',
+					'error'
+				)
+
+				return false;
+
 			}
-			else{
+			 else{
 
 			$('#form-dinamico .frm-save').click();
-					var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-					console.log('info_id:' + info_id);
-					console.log('Formulario Guardado con exito -function cerrarTareaform');
-					}
+			var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+			console.log('info_id:' + info_id);
+			console.log('Formulario Guardado con exito -function cerrarTareaform');
 
-					return bandera; 
+			
+			return true;
+
+			}
+		
+
+			
+					
+
 		}
 			
 
