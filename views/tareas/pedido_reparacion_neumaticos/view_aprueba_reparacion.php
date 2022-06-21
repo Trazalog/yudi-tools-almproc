@@ -221,13 +221,12 @@ debugger;
       if ( $("#rechazo").is(":checked")) {
 		debugger;
 
- var gardado = cerrarTareaform();
+ var guardado = cerrarTareaform();
 
-    if(!gardado){
+    if(!guardado){
      return;
     }
-    console.log('chuka tarea cerrada')
-return;
+    console.log('tarea cerrada');
       var id = $('#taskId').val();
       console.log(id);
 
@@ -269,9 +268,9 @@ return;
 
       } else{
 
-        var gardado = cerrarTareaform();
+        var guardado = cerrarTareaform();
 
-if(!gardado){
+if(!guardado){
  return;
 }
 

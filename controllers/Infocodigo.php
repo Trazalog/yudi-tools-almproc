@@ -75,14 +75,14 @@ class Infocodigo extends CI_Controller {
 
 					case 'marca_yudica':
 							$valor= $value->valor;
-							$resultado_str = str_replace("777-marca_yudica", "", $valor);	
+							$resultado_str = str_replace(empresa()."-marca_yudica", "", $valor);	
 
 							$datos['Marca'] = $resultado_str;
 								break;
 
 					case 'medidas_yudica':
 						$valor= $value->valor;
-						$resultado_str = str_replace("777-medidas_yudica", "", $valor);	
+						$resultado_str = str_replace(empresa()."-medidas_yudica", "", $valor);	
 					
 						$datos['Medida'] = $resultado_str;
 								break;
@@ -90,7 +90,7 @@ class Infocodigo extends CI_Controller {
 					case 'banda_yudica':
 						
 						$valor= $value->valor;
-						$resultado_str = str_replace("777-banda_yudica", "", $valor);	
+						$resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
 						
 						$datos['Banda'] = $resultado_str;
 						break;
