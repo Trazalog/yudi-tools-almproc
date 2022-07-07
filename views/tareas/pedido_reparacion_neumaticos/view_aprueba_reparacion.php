@@ -11,7 +11,7 @@ input[type=radio]{
 
 <?php // #HGallardo
     // carga el modal de impresion de QR
-    $this->load->view( COD.'componentes/modal');
+    $this->load->view( COD.'componentes/modalYudica');
 ?>
 
 <h3>Revisión Inicial <small></small></h3>
