@@ -9,7 +9,7 @@
 
 <?php // #HGallardo
     // carga el modal de impresion de QR
-    $this->load->view( COD.'componentes/modal');
+    $this->load->view( COD.'componentes/modalYudica');
 ?>
 
 <hr>
