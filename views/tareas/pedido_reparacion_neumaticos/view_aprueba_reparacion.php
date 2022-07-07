@@ -20,7 +20,7 @@ input[type=radio]{
         <center>
             <h3 class="text-danger"> ¿Se Aprueba Trabajo? </h3>
             <label class="radio-inline">
-                <input type="radio" name="result" value="true"
+                <input id="aprobar" type="radio" name="result" value="true"
                     onclick="mostrarForm();"> Aprobar
             </label>
             <label class="radio-inline">
@@ -33,13 +33,11 @@ input[type=radio]{
 
     <br>
  
-    <div id="motivo" class="form-group motivo">
-        <textarea class="form-control" id="motivo_rechazo" name="motivo_rechazo" placeholder="Motivo de Rechazo..."></textarea>
-    </div>
 </form>
+
 <h4 id="titulo">Seleccione Parche a Utilizar <small></small></h4>
 <div id="form-dinamico" class="frm-new" data-form="9"></div>
-
+<div id="form-dinamico-rechazo" class="frm-new" data-form="51"></div>
 
 <button type="" class="btn btn-primary habilitar" data-dismiss="modal" id="btnImpresion" onclick="modalCodigos()">Impresion</button>
 
@@ -71,7 +69,7 @@ input[type=radio]{
           <tbody>
             <tr>
               <td><input id="num_cubiertas" name="num_cubiertas" type="text" value="" class="form-control input-md"></td>
-              <td><input id="num_pedido" name="num_pedido" type="text" value="14141" class="form-control input-md"></td>
+              <td><input id="num_pedido" name="num_pedido" type="text" value="" class="form-control input-md"></td>
               <td><input id="medidas_yudica" name="medidas_yudica" type="text" value="" class="form-control input-md"></td>
               <td><input id="marca_yudica" name="marca_yudica" type="text" value="" class="form-control input-md"></td>
               <td><input id="num_serie" name="num_serie" type="text" value="" class="form-control input-md"></td>
@@ -96,7 +94,7 @@ input[type=radio]{
 <script>
 
   function getFormData(){
-
+debugger;
     var array_form = {};
     $('#form-dinamico-cabecera').find(':input').each(function() {
       array_form[this.name] = this.value;
@@ -105,43 +103,7 @@ input[type=radio]{
 
     $.each(array_form, function( index, value ) {
         console.log( index + ": " + value );
-        //debugger;
-
-
-        // if (index =="num_cubiertas" ) {
-
-        //     $('#num_cubiertas').val(value);
-
-        // } 
-        // if else (index =="medidas_yudica" ) {
-
-        // $('#medidas_yudica').val(value);
-
-        // } 
-
-        // if else (index =="marca_yudica" ) {
-
-        // $('#marca_yudica').val(value);
-
-        // }
-
-        // if else (index =="num_serie" ) {
-
-        // $('#num_serie').val(value);
-
-        // } 
-
-        // if else (index =="banda_yudica" ) {
-
-        // $('#banda_yudica').val(value);
-
-        // } 
-
-        // else {
-
-        // }
-
-      
+ 
     });
 
 
@@ -149,22 +111,14 @@ input[type=radio]{
 
   getFormData();
 
-  //$('#tbl_comprobante').append('<tr><td></td><td >'+ config[this.name]+'</td><td>'+ config[this.name]+'</td><td>'+ config[this.name]+'</td></tr>')
-</script>
-
-<script>
-
-
-
   function mostrarForm(){
 
       detectarForm();
       initForm();
 
-
       $('#form-dinamico').show();
       $('#titulo').show();
-      $('#motivo').hide();
+      $('#form-dinamico-rechazo').hide();
       $('#comprobante').hide();
       // oculta btn para imprimir
       $('#btnImpresion').hide();
@@ -172,7 +126,12 @@ input[type=radio]{
 
   function ocultarForm(){
 
-      $('#motivo').show();
+    detectarForm();
+    initForm();
+
+     // $('#motivo').show();
+      $('#form-dinamico-rechazo').show();
+    
       $('#comprobante').show();
       $('#hecho').prop('disabled',false);
       $('#form-dinamico').hide();
@@ -185,27 +144,99 @@ input[type=radio]{
   $('#form-dinamico').hide();
   $('#titulo').hide();
   $('#comprobante').hide();
-  $('#motivo').hide();
+   // $('#motivo').show();
+   $('#form-dinamico-rechazo').show();
+
   $('#btnImpresion').hide();
 
 
+  function cerrarTareaform(){
+    debugger;
+
+    if ( $("#rechazo").is(":checked")) {
+	
+    var bandera = true ;
+
+
+    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+        Swal.fire(
+					'Oops...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+                bandera = false;
+       return bandera;
+	 		}
+
+    else{
+     $('#form-dinamico-rechazo .frm').attr('id','rechazo-form'); 
+    frmGuardar($('#form-dinamico-rechazo.frm-new').find('form'),false,false);
+        var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
+        console.log('info_id:' + info_id);
+         console.log('Formulario Guardado con exito -function cerrarTareaform');
+        }
+
+        return bandera; 
+  }
+  else if ( $("#aprobar").is(":checked")) {
+    debugger;
+    var bandera = true ;
+
+      if (!frm_validar('#form-dinamico')) {
+
+        console.log("Error al guardar Formulario");
+          Swal.fire(
+            'Oops...',
+            'Debes completar los campos Obligatorios (*)',
+            'error'
+          )
+      bandera = false;
+        return bandera;
+
+      }
+      else{
+      frmGuardar($('#form-dinamico.frm-new').find('form'),false,false);
+          var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+          console.log('info_id:' + info_id);
+          console.log('Formulario Guardado con exito -function cerrarTareaform');
+          }
+
+          return bandera; 
+
+    }
+}
+
   function cerrarTarea() {
-
-      var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-
-      if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
-          alert('Completar Motivo de Rechazo');
+debugger;
+     
+      if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+        Swal.fire(
+                'Error!',
+                'Por favor complete el campo Motivo de Rechazo...',
+                'error'
+            )
           return;
       }
 
+      if ( $("#rechazo").is(":checked")) {
+		debugger;
+
+ var guardado = cerrarTareaform();
+
+    if(!guardado){
+     return;
+    }
+    console.log('tarea cerrada');
       var id = $('#taskId').val();
       console.log(id);
 
-      var dataForm = new FormData($('#generic_form')[0]);
+      var frm_info_id_rechazo = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
+
+     var dataForm = new FormData($('#generic_form')[0]);
 
       dataForm.append('taskId', $('#taskId').val());
 
-      dataForm.append('frm_info_id', frm_info_id);
+      dataForm.append('frm_info_id', frm_info_id_rechazo);
 
       $.ajax({
           type: 'POST',
@@ -234,6 +265,59 @@ input[type=radio]{
           }
       });
 
+
+      } else{
+
+        var guardado = cerrarTareaform();
+
+if(!guardado){
+ return;
+}
+
+        debugger;
+
+      var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+     
+      
+      var id = $('#taskId').val();
+      console.log(id);
+
+      var dataForm = new FormData($('#generic_form')[0]);
+
+      dataForm.append('taskId', $('#taskId').val());
+
+      dataForm.append('frm_info_id', frm_info_id);
+
+      $.ajax({
+          type: 'POST',
+          data: dataForm,
+          cache: false,
+          contentType: false,
+          processData: false,
+          url: '<?php  base_url() ?>index.php/<?php  echo BPM ?>Proceso/cerrarTarea/' + id,
+          success: function(data) {
+              //wc();
+          //   back();
+          linkTo('<?php  echo BPM ?>Proceso/');
+
+          setTimeout(() => {
+              Swal.fire(
+                  
+                      'Perfecto!',
+                      'Se Finalizó la Tarea Correctamente!',
+                      'success'
+                  )
+      }, 6000);
+      
+          },
+          error: function(data) {
+              alert("Error");
+          }
+      });
+
+      }
+
+    
   }
 </script>
 
@@ -246,28 +330,38 @@ input[type=radio]{
       // si es rechazado el pedido debe llenar el input motivo
       var rechazo = $("#motivo_rechazo").val();
       if (rechazo == undefined) {
-        alert('Por favor complete el campo Motivo de Rechazo...');
+        Swal.fire(
+                'Error!',
+                'Por favor complete el campo Motivo de Rechazo...',
+                'error'
+            )
+      
         return;
       }
 
       if (band == 0) {
+        debugger;
           // configuracion de codigo QR
           var config = {};
               config.titulo = "Revision Inicial";
-              config.pixel = "5";
-              config.level = "L";
+              config.pixel = "2";
+              config.level = "S";
               config.framSize = "2";
           // info para immprimir  medidas_yudica
           var arraydatos = {};
+              arraydatos.N_orden = $('#petr_id').val();
               arraydatos.Cliente = $('#cliente').val();
-              arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
-              arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
+              arraydatos.Medida = $('select[name="medidas_yudica"]').select2('data')[0].text;
+              arraydatos.Marca = $('select[name="marca_yudica"]').select2('data')[0].text;
               arraydatos.Serie = $('#num_serie').val();
               arraydatos.Num = $('#num_cubiertas').val();
 
               arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
-              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+              arraydatos.Trabajo = $('#tipo_proyecto').val();
+              arraydatos.Banda = $('select[name="banda_yudica"]').select2('data')[0].text;
+
+              // si la etiqueta es derechazo
+              arraydatos.Motivo = $('#motivo_rechazo').val();
           // info para grabar en codigo QR
           armarInfo(arraydatos);
       }

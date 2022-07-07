@@ -43,8 +43,8 @@
 				<label class="col-md-3 control-label" for="">Seleccione paso del proceso al que desea volver:</label>
 
 				<div class="col-md-6">
-						<select id="" name="result" class="form-control" required>
-								<option value="" disabled selected> - Seleccionar Paso del Proceso- </option>
+						<select id="result" name="result" class="form-control" required>
+								<option value="0" disabled selected> - Seleccionar Paso del Proceso- </option>
 								<option value="SCRAP"> - SCRAP - </option>
 								<option value="RASPADO_ESCARIADO"> - RASPADO_ESCARIADO - </option>
 								<option value="REVISION_INICIAL"> - REVISION_INICIAL - </option>
@@ -93,33 +93,147 @@ $('#form-dinamico').hide();
 
 	}
 
-	
-
-	function cerrarTareaform(){
-			debugger;
-			var bandera = true ;
-
-			if (!frm_validar('#form-dinamico')) {
+	//validar campos obligatorios del formulario dinamico
+	function ValidarCampos(){
+debugger;
+		var bandera = true ;
+if ( $("#rechazo").is(":checked")) {
+		if ( $('input[name="bordes"]:checked').length == 0) {
 		
-				console.log("Error al guardar Formulario");
-					Swal.fire(
-						'Oops...',
-						'Debes completar los campos Obligatorios (*)',
-						'error'
-					)
+		console.log("Error campos Obligatorios");
+			Swal.fire(
+				'Error...',
+				'Debes completar los campos Obligatorios (*)',
+				'error'
+			)
+		
 		bandera = false;
+		
+		return bandera;
+
+	}
+
+	else if ( $('input[name="parche_pegado"]:checked').length == 0) {
+
+	console.log("Error campos Obligatorios");
+		Swal.fire(
+			'Error...',
+			'Debes completar los campos Obligatorios (*)',
+			'error'
+		)
+
+		bandera = false;
+		
+		return bandera;
+
+		}	
+
+		else if ( $('input[name="globos"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
 				return bandera;
 
+		}
+
+		else if ( $('input[name="tajeada"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+
+		else if ( $('input[name="extremos_pegados"]:checked').length == 0) {
+			
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes completar los campos Obligatorios (*)',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+
+		// else if ( $('input[name="pintado"]:checked').length == 0) {
+			
+		// 	console.log("Error campos Obligatorios");
+		// 		Swal.fire(
+		// 			'Error...',
+		// 			'Debes completar los campos Obligatorios (*)',
+		// 			'error'
+		// 		)
+
+		// 	bandera = false;
+			
+		// 	return bandera;
+
+		// }
+		
+		else if ( $('#result option:selected').val() == 0) {
+		
+			console.log("Error campos Obligatorios");
+				Swal.fire(
+					'Error...',
+					'Debes seleccione paso del proceso al que desea volver',
+					'error'
+				)
+
+				bandera = false;
+		
+				return bandera;
+
+		}
+	}
+}
+	function cerrarTareaform(){
+			debugger;
+		
+			if (ValidarCampos() == false) {
+				
+				Swal.fire(
+					'Error...',
+					'Validando Campos Obligatorios',
+					'error'
+				)
+
+				return false;
+
 			}
-			else{
+			 else{
 
 			$('#form-dinamico .frm-save').click();
-					var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-					console.log('info_id:' + info_id);
-					console.log('Formulario Guardado con exito -function cerrarTareaform');
-					}
+			var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
+			console.log('info_id:' + info_id);
+			console.log('Formulario Guardado con exito -function cerrarTareaform');
 
-					return bandera; 
+			
+			return true;
+
+			}
+		
+
+			
+					
+
 		}
 			
 
@@ -190,25 +304,31 @@ $('#form-dinamico').hide();
   // Se peden hacer dos cosas: o un ajax con los datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
+	  //supongo que entra
 debugger;
       if (band == 0) {
           // configuracion de codigo QR
           var config = {};
               config.titulo = "Pintado y Acabado Final";
-              config.pixel = "5";
-              config.level = "L";
+              config.pixel = "2";
+              config.level = "S";
               config.framSize = "2";
           // info para immprimir
           var arraydatos = {};
+		 	  arraydatos.N_orden = $('#petr_id').val();
               arraydatos.Cliente = $('#cliente').val();
-              arraydatos.Medida = $('select[name="medidas_yudica"] option:selected').val();
-              arraydatos.Marca = $('select[name="marca_yudica"] option:selected').val();
+              arraydatos.Medida = $('select[name="medidas_yudica"]').select2('data')[0].text;
+              arraydatos.Marca = $('select[name="marca_yudica"]').select2('data')[0].text;
               arraydatos.Serie = $('#num_serie').val();
               arraydatos.Num = $('#num_cubiertas').val();
 			 
 			  arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('select[name="tipt_id"] option:selected').val();
-              arraydatos.Banda = $('select[name="banda_yudica"] option:selected').val();
+              arraydatos.Trabajo = $('#tipo_proyecto').val();
+              arraydatos.Banda = $('select[name="banda_yudica"]').select2('data')[0].text;
+			  
+			// si la etiqueta es derechazo
+		    arraydatos.Motivo = $('#motivo_rechazo').val();
+
           // info para grabar en codigo QR
           armarInfo(arraydatos);
           // agrega codigo QR al modal impresion
@@ -223,7 +343,7 @@ debugger;
 
   function armarInfo(arraydatos){
 
-    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajo", arraydatos);
+    $("#infoEtiqueta").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFinal", arraydatos);
     $("#infoFooter").load("<?php echo base_url(YUDIPROC); ?>/Infocodigo/pedidoTrabajoFooter");
   }
 </script>
