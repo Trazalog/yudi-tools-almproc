@@ -74,6 +74,7 @@ initForm();
 
 function cerrarTareaform(){
     debugger;
+    
     var bandera = true ;
 
     if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
@@ -100,11 +101,18 @@ function cerrarTareaform(){
 
 	function cerrarTarea() {
 			debugger;
-			if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-					alert('Completar Motivo de Rechazo');
-					return;
-			}
-		
+
+      wo();
+    if(!frm_validar('#form-dinamico-rechazo')){
+        wc();
+        Swal.fire(
+            'Error..',
+            'Debes completar los campos obligatorios (*)',
+            'error'
+        );
+        return;
+    }
+
    var gardado = cerrarTareaform();
 
     if(!gardado){

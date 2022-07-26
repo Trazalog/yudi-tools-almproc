@@ -331,6 +331,7 @@ debugger;
 
           // info para grabar en codigo QR
           armarInfo(arraydatos);
+		  console.log(arraydatos);
           // agrega codigo QR al modal impresion
           getQR(config, arraydatos, 'codigosQR/Traz-comp-Yudica');
 
