@@ -9,7 +9,7 @@
 
 <?php // #HGallardo
     // carga el modal de impresion de QR
-    $this->load->view( COD.'componentes/modal');
+    $this->load->view( COD.'componentes/modalYudica');
 ?>
 
 <hr>
@@ -331,6 +331,7 @@ debugger;
 
           // info para grabar en codigo QR
           armarInfo(arraydatos);
+		  console.log(arraydatos);
           // agrega codigo QR al modal impresion
           getQR(config, arraydatos, 'codigosQR/Traz-comp-Yudica');
 
