@@ -18,7 +18,7 @@ input[type=radio]{
 <form id="generic_form">
     <div class="form-group">
         <center>
-            <h3 class="text-danger"> ¿Continua Trabajo? </h3>
+            <h3 class="text-danger"> ¿Continúa trabajo? </h3>
             <label class="radio-inline">
                 <input type="radio" name="result" value="true"
                     onclick="$('#form-dinamico-rechazo').hide();$('#hecho').prop('disabled',false); $('#btnImpresion').hide();"> Si
@@ -44,123 +44,78 @@ input[type=radio]{
 <br><br><br>
 
 <script>
+  detectarForm();
+  initForm();
 
   $('#titulo').hide();
   $('#comprobante').hide();
-   // $('#motivo').show();
   $('#form-dinamico-rechazo').hide();
-
   $('#btnImpresion').hide();
 
-	// $('#motivo').hide();
-	// $('#hecho').prop('disabled', true);
-
 function ocultarForm(){
-
-detectarForm();
-initForm();
-
- // $('#motivo').show();
   $('#form-dinamico-rechazo').show();
-
   $('#comprobante').show();
   $('#hecho').prop('disabled',false);
   $('#form-dinamico').hide();
   $('#titulo').hide();
   // muestra btn para imprimir
   $('#btnImpresion').show();
-
 }
 
-function cerrarTareaform(){
-    debugger;
-    
-    var bandera = true ;
+async function cerrarTareaform(){  
+  var bandera = {};
+  bandera.status = true;
+  if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+    wc();
+    error('Oops...','Debes completar los campos Obligatorios (*)');
+    bandera.status = false;
+  }else{
+    var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
+    bandera.info_id = newInfoID;
+  }
+  return new Promise((resolve) => {resolve(bandera)});
+}
 
-    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-        Swal.fire(
-					'Oops...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-                bandera = false;
-       return bandera;
-			}
 
-    else{
-
-    $('#form-dinamico-rechazo .frm-save').click();
-        var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
-        console.log('info_id:' + info_id);
-         console.log('Formulario Guardado con exito -function cerrarTareaform');
-        }
-
-        return bandera; 
+async	function cerrarTarea() {
+  if(!frm_validar('#form-dinamico-rechazo')){
+    error('Error..','Debes completar los campos obligatorios (*)');
+    return;
   }
 
+  wo();
+  var rsp = await cerrarTareaform();
 
-	function cerrarTarea() {
-			debugger;
+  if(!rsp.status) {
+    wc();
+    error('Error','Se produjo un error al guardar el formulario asociado.');
+    return;
+  }
 
-      wo();
-    if(!frm_validar('#form-dinamico-rechazo')){
-        wc();
-        Swal.fire(
-            'Error..',
-            'Debes completar los campos obligatorios (*)',
-            'error'
-        );
-        return;
+  var id = $('#taskId').val();
+  var dataForm = new FormData($('#generic_form')[0]);
+  dataForm.append('frm_info_id', rsp.info_id);
+  dataForm.append('taskId', $('#taskId').val());
+  
+  $.ajax({
+    type: 'POST',
+    data: dataForm,
+    cache: false,
+    contentType: false,
+    processData: false,
+    url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+    success: function(data) {
+      var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+      confRefresh(fun);
+    },
+    error: function(data) {
+      error("Error",'Se produjo un error al cerrar la tarea');
+    },
+    complete: () => {
+      wc();
     }
-
-   var gardado = cerrarTareaform();
-
-    if(!gardado){
-     return;
-    }
-
-    var id = $('#taskId').val();
-	console.log(id);
-
-
-    var frm_info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
-
-    var dataForm = new FormData($('#generic_form')[0]);
-   
-    dataForm.append('frm_info_id', frm_info_id);
-
-	dataForm.append('taskId', $('#taskId').val());
-
-			$.ajax({
-					type: 'POST',
-					data: dataForm,
-					cache: false,
-					contentType: false,
-					processData: false,
-					url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-					success: function(data) {
-							//wc();
-							//back();
-
-							linkTo('<?php echo BPM ?>Proceso/');
-					
-							setTimeout(() => {
-							Swal.fire(
-									
-											'Perfecto!',
-											'Se Finalizó la Tarea Correctamente!',
-											'success'
-									)
-			}, 6000);
-			
-
-					},
-					error: function(data) {
-							alert("Error");
-					}
-			});
-
-	}
+  });
+}
 </script>
 
 
@@ -185,7 +140,6 @@ if ((rechazo == undefined) || (rechazo == "")) {
 }
 
 if (band == 0) {
-  debugger;
     // configuracion de codigo QR
     var config = {};
         config.titulo = "Revision Inicial";

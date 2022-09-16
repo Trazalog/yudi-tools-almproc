@@ -36,50 +36,36 @@ detectarForm();
 initForm();
 
 
-function cerrarTareaform(){
-    debugger;
-    var bandera = true ;
+async function cerrarTareaform(){
+    var bandera = {};
+    bandera.status = true;
 
     if (!frm_validar('#form-dinamico')) {
-  
-    	console.log("Error al guardar Formulario");
-				Swal.fire(
-					'Oops...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-   bandera = false;
-       return bandera;
-
+        wc();
+    	error('Oops...','Debes completar los campos Obligatorios (*)');
+        bandera.status = false;
+    }else{
+        var newInfoID = await frmGuardarConPromesa($('#form-dinamico').find('form'));
+        bandera.info_id = newInfoID;
     }
-    else{
 
-    $('#form-dinamico .frm-save').click();
-        var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-        console.log('info_id:' + info_id);
-         console.log('Formulario Guardado con exito -function cerrarTareaform');
-        }
-
-        return bandera; 
-  }
+    return new Promise((resolve) => {resolve(bandera)});
+}
     
 
-function cerrarTarea() {
-    debugger;
-   var gardado = cerrarTareaform();
+async function cerrarTarea() {
+    wo();
+    var rsp = await cerrarTareaform();
 
-    if(!gardado){
-     return;
+    if(!rsp.status) {
+        wc();
+        error('Error','Se produjo un error al guardar el formulario asociado.');
+        return;
     }
 
     var id = $('#taskId').val();
-
-    var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-
     var dataForm = new FormData($('#generic_form')[0]);
-   
-    dataForm.append('frm_info_id', frm_info_id);
-
+    dataForm.append('frm_info_id', rsp.info_id);
 
     $.ajax({
         type: 'POST',
@@ -89,23 +75,15 @@ function cerrarTarea() {
         processData: false,
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
-            //wc();
-            //back();
-            linkTo('<?php echo BPM ?>Proceso/');
-            setTimeout(() => {
-            Swal.fire(
-                
-                    'Perfecto!',
-                    'Se Finalizó la Tarea Correctamente!',
-                    'success'
-                )
-		  }, 13000);
-    
+            var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+            confRefresh(fun);
         },
         error: function(data) {
-            alert("Error");
+            error("Error",'Se produjo un error al cerrar la tarea');
+        },
+        complete: () => {
+            wc();
         }
     });
-debugger;
 }
 </script>
