@@ -94,7 +94,6 @@ input[type=radio]{
 <script>
 
   function getFormData(){
-debugger;
     var array_form = {};
     $('#form-dinamico-cabecera').find(':input').each(function() {
       array_form[this.name] = this.value;
@@ -150,175 +149,71 @@ debugger;
   $('#btnImpresion').hide();
 
 
-  function cerrarTareaform(){
-    debugger;
+  async function cerrarTareaform(){
+    var bandera = {};
+    bandera.status = true;
 
     if ( $("#rechazo").is(":checked")) {
-	
-    var bandera = true ;
+      bandera.formulario = "#form-dinamico-rechazo";
 
-
-    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-        Swal.fire(
-					'Oops...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-                bandera = false;
-       return bandera;
-	 		}
-
-    else{
-     $('#form-dinamico-rechazo .frm').attr('id','rechazo-form'); 
-    frmGuardar($('#form-dinamico-rechazo.frm-new').find('form'),false,false);
-        var info_id = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
-        console.log('info_id:' + info_id);
-         console.log('Formulario Guardado con exito -function cerrarTareaform');
-        }
-
-        return bandera; 
-  }
-  else if ( $("#aprobar").is(":checked")) {
-    debugger;
-    var bandera = true ;
-
-      if (!frm_validar('#form-dinamico')) {
-
-        console.log("Error al guardar Formulario");
-          Swal.fire(
-            'Oops...',
-            'Debes completar los campos Obligatorios (*)',
-            'error'
-          )
-      bandera = false;
-        return bandera;
-
-      }
-      else{
-      frmGuardar($('#form-dinamico.frm-new').find('form'),false,false);
-          var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-          console.log('info_id:' + info_id);
-          console.log('Formulario Guardado con exito -function cerrarTareaform');
-          }
-
-          return bandera; 
-
-    }
-}
-
-  function cerrarTarea() {
-debugger;
-     
       if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-        Swal.fire(
-                'Error!',
-                'Por favor complete el campo Motivo de Rechazo...',
-                'error'
-            )
-          return;
+        error('Oops...','Debes completar los campos Obligatorios (*)');
+        bandera.status = false;
+      }else{
+        $('#form-dinamico-rechazo .frm').attr('id','rechazo-form');
+        var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
+        bandera.info_id = newInfoID;
+      } 
+    }else if ( $("#aprobar").is(":checked")) {
+      bandera.formulario = "#form-dinamico";
+      if (!frm_validar('#form-dinamico')) {
+        error('Oops...','Debes completar los campos Obligatorios (*)');
+        bandera.status = false;
+      }else{
+        var newInfoID = await frmGuardarConPromesa($('#form-dinamico').find('form'));
+        bandera.info_id = newInfoID;
       }
-
-      if ( $("#rechazo").is(":checked")) {
-		debugger;
-
- var guardado = cerrarTareaform();
-
-    if(!guardado){
-     return;
     }
-    console.log('tarea cerrada');
-      var id = $('#taskId').val();
-      console.log(id);
-
-      var frm_info_id_rechazo = $('#form-dinamico-rechazo .frm').attr('data-ninfoid');
-
-     var dataForm = new FormData($('#generic_form')[0]);
-
-      dataForm.append('taskId', $('#taskId').val());
-
-      dataForm.append('frm_info_id', frm_info_id_rechazo);
-
-      $.ajax({
-          type: 'POST',
-          data: dataForm,
-          cache: false,
-          contentType: false,
-          processData: false,
-          url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-          success: function(data) {
-              //wc();
-          //   back();
-          linkTo('<?php echo BPM ?>Proceso/');
-
-          setTimeout(() => {
-              Swal.fire(
-                  
-                      'Perfecto!',
-                      'Se Finalizó la Tarea Correctamente!',
-                      'success'
-                  )
-      }, 6000);
-      
-          },
-          error: function(data) {
-              alert("Error");
-          }
-      });
-
-
-      } else{
-
-        var guardado = cerrarTareaform();
-
-if(!guardado){
- return;
+  return new Promise((resolve) => {resolve(bandera)});
 }
 
-        debugger;
-
-      var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-     
-      
-      var id = $('#taskId').val();
-      console.log(id);
-
-      var dataForm = new FormData($('#generic_form')[0]);
-
-      dataForm.append('taskId', $('#taskId').val());
-
-      dataForm.append('frm_info_id', frm_info_id);
-
-      $.ajax({
-          type: 'POST',
-          data: dataForm,
-          cache: false,
-          contentType: false,
-          processData: false,
-          url: '<?php  base_url() ?>index.php/<?php  echo BPM ?>Proceso/cerrarTarea/' + id,
-          success: function(data) {
-              //wc();
-          //   back();
-          linkTo('<?php  echo BPM ?>Proceso/');
-
-          setTimeout(() => {
-              Swal.fire(
-                  
-                      'Perfecto!',
-                      'Se Finalizó la Tarea Correctamente!',
-                      'success'
-                  )
-      }, 6000);
-      
-          },
-          error: function(data) {
-              alert("Error");
-          }
-      });
-
-      }
-
-    
+async function cerrarTarea() {
+  if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+    error('Error!','Por favor complete el campo Motivo de Rechazo...');
+    return;
   }
+  wo();
+  var rsp = await cerrarTareaform();
+
+  if(!rsp.status) {
+    wc();
+    error('Error','Se produjo un error al guardar el formulario asociado.');
+    return;
+  }
+  var id = $('#taskId').val();
+
+  var dataForm = new FormData($('#generic_form')[0]);
+  dataForm.append('taskId', $('#taskId').val());
+  dataForm.append('frm_info_id', rsp.info_id);
+  $.ajax({
+      type: 'POST',
+      data: dataForm,
+      cache: false,
+      contentType: false,
+      processData: false,
+      url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+      success: function(data) {
+        var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+        confRefresh(fun);
+      },
+      error: function(data) {
+        error("Error",'Se produjo un error al cerrar la tarea');
+      },
+      complete: () => {
+        wc();
+      }
+  });
+}
 </script>
 
 <script>  // #HGallardo
@@ -326,49 +221,42 @@ if(!guardado){
   // Se peden hacer dos cosas: o un ajax buscando datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
+    // si es rechazado el pedido debe llenar el input motivo
+    var rechazo = $("#motivo_rechazo").val();
+    if (rechazo == undefined) {
+      error('Error!','Por favor complete el campo Motivo de Rechazo...');
+      return;
+    }
 
-      // si es rechazado el pedido debe llenar el input motivo
-      var rechazo = $("#motivo_rechazo").val();
-      if (rechazo == undefined) {
-        Swal.fire(
-                'Error!',
-                'Por favor complete el campo Motivo de Rechazo...',
-                'error'
-            )
-      
-        return;
-      }
+    if (band == 0) {
+        // configuracion de codigo QR
+        var config = {};
+            config.titulo = "Revision Inicial";
+            config.pixel = "2";
+            config.level = "S";
+            config.framSize = "2";
+        // info para immprimir  medidas_yudica
+        var arraydatos = {};
+            arraydatos.N_orden = $('#petr_id').val();
+            arraydatos.Cliente = $('#cliente').val();
+            arraydatos.Medida = $('select[name="medidas_yudica"]').select2('data')[0].text;
+            arraydatos.Marca = $('select[name="marca_yudica"]').select2('data')[0].text;
+            arraydatos.Serie = $('#num_serie').val();
+            arraydatos.Num = $('#num_cubiertas').val();
 
-      if (band == 0) {
-        debugger;
-          // configuracion de codigo QR
-          var config = {};
-              config.titulo = "Revision Inicial";
-              config.pixel = "2";
-              config.level = "S";
-              config.framSize = "2";
-          // info para immprimir  medidas_yudica
-          var arraydatos = {};
-              arraydatos.N_orden = $('#petr_id').val();
-              arraydatos.Cliente = $('#cliente').val();
-              arraydatos.Medida = $('select[name="medidas_yudica"]').select2('data')[0].text;
-              arraydatos.Marca = $('select[name="marca_yudica"]').select2('data')[0].text;
-              arraydatos.Serie = $('#num_serie').val();
-              arraydatos.Num = $('#num_cubiertas').val();
+            arraydatos.Zona = $('#zona').val();
+            arraydatos.Trabajo = $('#tipo_proyecto').val();
+            arraydatos.Banda = $('select[name="banda_yudica"]').select2('data')[0].text;
 
-              arraydatos.Zona = $('#zona').val();
-              arraydatos.Trabajo = $('#tipo_proyecto').val();
-              arraydatos.Banda = $('select[name="banda_yudica"]').select2('data')[0].text;
+            // si la etiqueta es derechazo
+            arraydatos.Motivo = $('#motivo_rechazo').val();
+        // info para grabar en codigo QR
+        armarInfo(arraydatos);
+    }
+    // llama modal con datos e img de QR ya ingresados
+    verModalImpresion();
 
-              // si la etiqueta es derechazo
-              arraydatos.Motivo = $('#motivo_rechazo').val();
-          // info para grabar en codigo QR
-          armarInfo(arraydatos);
-      }
-      // llama modal con datos e img de QR ya ingresados
-      verModalImpresion();
-
-      band = 1;
+    band = 1;
   }
 
   function armarInfo(arraydatos){
