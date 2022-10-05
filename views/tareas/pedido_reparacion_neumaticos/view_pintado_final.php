@@ -112,6 +112,10 @@ function ValidarCampos(){
 			bandera = false;
 			return bandera;
 		}
+	}else{
+		if(!$("#Aprobar").is(":checked")){
+			bandera = false;
+		}
 	}
 	return bandera;
 }
@@ -136,6 +140,7 @@ async function cerrarTarea() {
 	if(!rsp.status){
 		return;
 	}
+	
 	var id = $('#taskId').val();
 	if ( $("#rechazo").is(":checked")) {
 		var dataForm = new FormData($('#generic_form')[0]);
