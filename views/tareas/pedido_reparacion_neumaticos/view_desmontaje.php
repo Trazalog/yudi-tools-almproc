@@ -23,24 +23,19 @@
 detectarForm();
 initForm();
 
+async function cerrarTarea() {
+    wo();
+    var frm_info_id =  await frmGuardarConPromesa($('#form-dinamico').find('form'));
 
-
- function cerrarTarea() {
-
-var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-
-   if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
-       alert('Completar Motivo de Rechazo');
-       return;
-   }
+    if ($('#rechazo').prop('checked') && $('#motivo .form-control').val() == '') {
+        wc();
+        error('Error','Completar Motivo de Rechazo');
+        return;
+    }
 
    var id = $('#taskId').val();
-console.log(id);
-
    var dataForm = new FormData($('#generic_form')[0]);
-
    dataForm.append('taskId', $('#taskId').val());
-
    dataForm.append('frm_info_id', frm_info_id);
 
    $.ajax({
@@ -51,24 +46,15 @@ console.log(id);
        processData: false,
        url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
        success: function(data) {
-           //wc();
-        //   back();
-        linkTo('<?php echo BPM ?>Proceso/');
-
-        setTimeout(() => {
-           Swal.fire(
-               
-                   'Perfecto!',
-                   'Se Finalizó la Tarea Correctamente!',
-                   'success'
-               )
-        }, 6000);
-   
-       },
-       error: function(data) {
-           alert("Error");
-       }
+			var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+			confRefresh(fun);
+		},
+        error: function(data) {
+			error("Error",'Se produjo un error al cerrar la tarea');
+		},
+		complete: () => {
+			wc();
+		}
    });
-
 }
 </script>

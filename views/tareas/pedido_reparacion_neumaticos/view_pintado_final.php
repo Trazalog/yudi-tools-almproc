@@ -61,240 +61,114 @@
 
 <script>
 $('#form-dinamico').hide();
+$('#generic_form').hide();
+detectarForm();
+initForm();
+
+function mostrarForm(){
+	$('#form-dinamico').show();
+	$('#generic_form').show();
+	// oculta btn para imprimir
+	$('#btnImpresion').hide();
+}
+
+function ocultarForm(){
 	$('#generic_form').hide();
 
+	$('#form-dinamico').hide();
+	$('#generic_form').hide();
 
-	function mostrarForm(){
+	// oculta btn para imprimir
+	$('#btnImpresion').show();
 
-
-			detectarForm();
-			initForm();
-
-			$('#form-dinamico').show();
-
-
-			setTimeout(function(){ $('#generic_form').show() ; }, 8000);
-
-			
-
-			// oculta btn para imprimir
-      $('#btnImpresion').hide();
-
-	}
-
-	function ocultarForm(){
-		$('#generic_form').hide();
-
-			$('#form-dinamico').hide();
-			$('#generic_form').hide();
-
-			// oculta btn para imprimir
-      $('#btnImpresion').show();
-
-	}
-
-	//validar campos obligatorios del formulario dinamico
-	function ValidarCampos(){
-debugger;
-		var bandera = true ;
-if ( $("#rechazo").is(":checked")) {
-		if ( $('input[name="bordes"]:checked').length == 0) {
-		
-		console.log("Error campos Obligatorios");
-			Swal.fire(
-				'Error...',
-				'Debes completar los campos Obligatorios (*)',
-				'error'
-			)
-		
-		bandera = false;
-		
-		return bandera;
-
-	}
-
-	else if ( $('input[name="parche_pegado"]:checked').length == 0) {
-
-	console.log("Error campos Obligatorios");
-		Swal.fire(
-			'Error...',
-			'Debes completar los campos Obligatorios (*)',
-			'error'
-		)
-
-		bandera = false;
-		
-		return bandera;
-
-		}	
-
-		else if ( $('input[name="globos"]:checked').length == 0) {
-			
-			console.log("Error campos Obligatorios");
-				Swal.fire(
-					'Error...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-
-				bandera = false;
-		
-				return bandera;
-
-		}
-
-		else if ( $('input[name="tajeada"]:checked').length == 0) {
-			
-			console.log("Error campos Obligatorios");
-				Swal.fire(
-					'Error...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-
-				bandera = false;
-		
-				return bandera;
-
-		}
-
-		else if ( $('input[name="extremos_pegados"]:checked').length == 0) {
-			
-			console.log("Error campos Obligatorios");
-				Swal.fire(
-					'Error...',
-					'Debes completar los campos Obligatorios (*)',
-					'error'
-				)
-
-				bandera = false;
-		
-				return bandera;
-
-		}
-
-		// else if ( $('input[name="pintado"]:checked').length == 0) {
-			
-		// 	console.log("Error campos Obligatorios");
-		// 		Swal.fire(
-		// 			'Error...',
-		// 			'Debes completar los campos Obligatorios (*)',
-		// 			'error'
-		// 		)
-
-		// 	bandera = false;
-			
-		// 	return bandera;
-
-		// }
-		
-		else if ( $('#result option:selected').val() == 0) {
-		
-			console.log("Error campos Obligatorios");
-				Swal.fire(
-					'Error...',
-					'Debes seleccione paso del proceso al que desea volver',
-					'error'
-				)
-
-				bandera = false;
-		
-				return bandera;
-
-		}
-	}
 }
-	function cerrarTareaform(){
-			debugger;
-		
-			if (ValidarCampos() == false) {
-				
-				Swal.fire(
-					'Error...',
-					'Validando Campos Obligatorios',
-					'error'
-				)
 
-				return false;
-
-			}
-			 else{
-
-			$('#form-dinamico .frm-save').click();
-			var info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-			console.log('info_id:' + info_id);
-			console.log('Formulario Guardado con exito -function cerrarTareaform');
-
-			
-			return true;
-
-			}
-		
-
-			
-					
-
+//validar campos obligatorios del formulario dinamico
+function ValidarCampos(){
+	var bandera = true;
+	if ( $("#rechazo").is(":checked")) {
+		if ( $('input[name="bordes"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('input[name="parche_pegado"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('input[name="globos"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('input[name="tajeada"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('input[name="extremos_pegados"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('#result option:selected').val() == 0) {
+			error('Error...','Debes seleccione paso del proceso al que desea volver');
+			bandera = false;
+			return bandera;
 		}
-			
-
-	function cerrarTarea() {
-			debugger;
-		var gardado = cerrarTareaform();
-
-			if(!gardado){
-			return;
-			}
-
-			var id = $('#taskId').val();
-
-		
-
-		if ( $("#rechazo").is(":checked")) {
-			var dataForm = new FormData($('#generic_form')[0]);
-		
-			var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-			console.log('Sale: generic_form');
-			console.log('Sale frm_info_id: '+frm_info_id);
-			dataForm.append('frm_info_id', frm_info_id);
-
-		} else {
-			var dataForm = new FormData($('#generic_form1')[0]);
-
-			var frm_info_id = $('#form-dinamico .frm').attr('data-ninfoid');
-			console.log('Sale: generic_form1');
-			console.log('Sale frm_info_id: '+frm_info_id);
-			dataForm.append('frm_info_id', frm_info_id);
+	}else{
+		if(!$("#Aprobar").is(":checked")){
+			bandera = false;
 		}
-
-
-			$.ajax({
-					type: 'POST',
-					data: dataForm,
-					cache: false,
-					contentType: false,
-					processData: false,
-					url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
-					success: function(data) {
-							//wc();
-						//back();
-						linkTo('<?php echo BPM ?>Proceso/');
-						
-						setTimeout(() => {
-							Swal.fire(
-									
-											'Perfecto!',
-											'Se Finalizó la Tarea Correctamente!',
-											'success'
-									)
-			}, 6000);
-			
-					},
-					error: function(data) {
-							alert("Error");
-					}
-			});
-	debugger;
 	}
+	return bandera;
+}
+async function cerrarTareaform(){
+	var respuesta = {};
+    respuesta.status = true;
+	if (ValidarCampos() == false) {
+		wc();
+		error('Error...','Validando Campos Obligatorios');
+		respuesta.status = false;
+	}else{
+		var newInfoID = await frmGuardarConPromesa($('#form-dinamico').find('form'));
+        respuesta.info_id = newInfoID;
+	}
+	return new Promise((resolve) => {resolve(respuesta)});
+}	
+
+async function cerrarTarea() {
+	wo();
+  	var rsp = await cerrarTareaform();
+
+	if(!rsp.status){
+		return;
+	}
+	
+	var id = $('#taskId').val();
+	if ( $("#rechazo").is(":checked")) {
+		var dataForm = new FormData($('#generic_form')[0]);
+		dataForm.append('frm_info_id', rsp.info_id);
+	} else {
+		var dataForm = new FormData($('#generic_form1')[0]);
+		dataForm.append('frm_info_id', rsp.info_id);
+	}
+
+	$.ajax({
+		type: 'POST',
+		data: dataForm,
+		cache: false,
+		contentType: false,
+		processData: false,
+		url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
+		success: function(data) {
+			var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+			confRefresh(fun);
+		},
+		error: function(data) {
+			error("Error",'Se produjo un error al cerrar la tarea');
+		},
+		complete: () => {
+			wc();
+		}
+	});
+}
 </script>
 
 <script>  // #HGallardo
@@ -305,7 +179,6 @@ if ( $("#rechazo").is(":checked")) {
   // armar con los datos de la pantalla
   function modalCodigos(){
 	  //supongo que entra
-debugger;
       if (band == 0) {
           // configuracion de codigo QR
           var config = {};
