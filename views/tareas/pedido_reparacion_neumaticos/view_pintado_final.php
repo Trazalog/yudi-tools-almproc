@@ -14,6 +14,7 @@
 
 <hr>
 <input type="number" class="hidden" value="" id="">
+<input type="hidden" id="empresaSeleccionada" value='<?php echo empresa(); ?>'>
 <h3>Pintado y Acabado Final <small>Detalle</small></h3>
 
 <hr>
@@ -85,25 +86,31 @@ function ocultarForm(){
 
 //validar campos obligatorios del formulario dinamico
 function ValidarCampos(){
+	debugger;
+	var empresa = $('#empresaSeleccionada').val();
 	var bandera = true;
 	if ( $("#rechazo").is(":checked")) {
-		if ( $('input[name="bordes"]:checked').length == 0) {
+		if ( $('input[name="' + empresa + '-bordes"]:checked').length == 0) {
 			error('Error...','Debes completar los campos Obligatorios (*)');
 			bandera = false;
 			return bandera;
-		}else if ( $('input[name="parche_pegado"]:checked').length == 0) {
+		}else if ( $('input[name="' + empresa + '-parche_pegado"]:checked').length == 0) {
 			error('Error...','Debes completar los campos Obligatorios (*)');
 			bandera = false;
 			return bandera;
-		}else if ( $('input[name="globos"]:checked').length == 0) {
+		}else if ( $('input[name="' + empresa + '-globos"]:checked').length == 0) {
 			error('Error...','Debes completar los campos Obligatorios (*)');
 			bandera = false;
 			return bandera;
-		}else if ( $('input[name="tajeada"]:checked').length == 0) {
+		}else if ( $('input[name="' + empresa + '-tajeada"]:checked').length == 0) {
 			error('Error...','Debes completar los campos Obligatorios (*)');
 			bandera = false;
 			return bandera;
-		}else if ( $('input[name="extremos_pegados"]:checked').length == 0) {
+		}else if ( $('input[name="' + empresa + '-extremos_pegados"]:checked').length == 0) {
+			error('Error...','Debes completar los campos Obligatorios (*)');
+			bandera = false;
+			return bandera;
+		}else if ( $('input[name="' + empresa + '-pintado"]:checked').length == 0) {
 			error('Error...','Debes completar los campos Obligatorios (*)');
 			bandera = false;
 			return bandera;
