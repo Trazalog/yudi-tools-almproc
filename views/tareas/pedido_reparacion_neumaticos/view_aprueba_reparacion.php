@@ -224,9 +224,9 @@ async function cerrarTarea() {
   // Se peden hacer dos cosas: o un ajax buscando datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
+    debugger;
     // si es rechazado el pedido debe llenar el input motivo
-    var rechazo = $("#motivo_rechazo").val();
-    if (rechazo == undefined) {
+    if (!frm_validar('#form-dinamico-rechazo')) {
       error('Error!','Por favor complete el campo Motivo de Rechazo...');
       return;
     }
