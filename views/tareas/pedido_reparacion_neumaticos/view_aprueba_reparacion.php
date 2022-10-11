@@ -153,33 +153,36 @@ input[type=radio]{
     var bandera = {};
     bandera.status = true;
 
-    if ( $("#rechazo").is(":checked")) {
-      bandera.formulario = "#form-dinamico-rechazo";
-
-      if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-        error('Oops...','Debes completar los campos Obligatorios (*)');
-        bandera.status = false;
+    if($("#rechazo").is(":checked") || $("#aprobar").is(":checked")){
+      if ( $("#rechazo").is(":checked")) {
+        bandera.formulario = "#form-dinamico-rechazo";
+        if (!frm_validar(bandera.formulario)) {
+          bandera.status = false;
+        }else{
+          $('#form-dinamico-rechazo .frm').attr('id','rechazo-form');
+          var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
+          bandera.status = true;
+          bandera.info_id = newInfoID;
+        } 
       }else{
-        $('#form-dinamico-rechazo .frm').attr('id','rechazo-form');
-        var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
-        bandera.info_id = newInfoID;
-      } 
-    }else if ( $("#aprobar").is(":checked")) {
-      bandera.formulario = "#form-dinamico";
-      if (!frm_validar('#form-dinamico')) {
-        error('Oops...','Debes completar los campos Obligatorios (*)');
-        bandera.status = false;
-      }else{
-        var newInfoID = await frmGuardarConPromesa($('#form-dinamico').find('form'));
-        bandera.info_id = newInfoID;
+        bandera.formulario = "#form-dinamico";
+        if (!frm_validar('#form-dinamico')) {
+          bandera.status = false;
+        }else{
+          var newInfoID = await frmGuardarConPromesa($('#form-dinamico').find('form'));
+          bandera.status = true;
+          bandera.info_id = newInfoID;
+        }
       }
+    }else{
+      bandera.status = false;
     }
   return new Promise((resolve) => {resolve(bandera)});
 }
 
 async function cerrarTarea() {
-  if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-    error('Error!','Por favor complete el campo Motivo de Rechazo...');
+  if ($("#rechazo").is(":checked") && $('#motivo_rechazo').val() == '') {
+    error('Error!','Por favor complete el campo motivo de rechazo...');
     return;
   }
   wo();
@@ -187,7 +190,7 @@ async function cerrarTarea() {
 
   if(!rsp.status) {
     wc();
-    error('Error','Se produjo un error al guardar el formulario asociado.');
+    error('Oops...','Debes completar los campos Obligatorios (*)');
     return;
   }
   var id = $('#taskId').val();
@@ -221,9 +224,9 @@ async function cerrarTarea() {
   // Se peden hacer dos cosas: o un ajax buscando datos o directamente
   // armar con los datos de la pantalla
   function modalCodigos(){
+    debugger;
     // si es rechazado el pedido debe llenar el input motivo
-    var rechazo = $("#motivo_rechazo").val();
-    if (rechazo == undefined) {
+    if (!frm_validar('#form-dinamico-rechazo')) {
       error('Error!','Por favor complete el campo Motivo de Rechazo...');
       return;
     }
