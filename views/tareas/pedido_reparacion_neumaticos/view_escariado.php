@@ -20,7 +20,7 @@ input[type=radio]{
         <center>
             <h3 class="text-danger"> ¿Continúa trabajo? </h3>
             <label class="radio-inline">
-                <input type="radio" name="result" value="true"
+                <input id="aprobado" type="radio" name="result" value="true"
                     onclick="$('#form-dinamico-rechazo').hide();$('#hecho').prop('disabled',false); $('#btnImpresion').hide();"> Si
             </label>
             <!-- <label class="radio-inline">
@@ -65,13 +65,15 @@ function ocultarForm(){
 async function cerrarTareaform(){  
   var bandera = {};
   bandera.status = true;
-  if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
-    wc();
-    error('Oops...','Debes completar los campos Obligatorios (*)');
-    bandera.status = false;
+  if($('#aprobado').prop('checked') || $('#rechazo').prop('checked')){
+    if ($('#rechazo').prop('checked') && $('#motivo_rechazo .form-control').val() == '') {
+      bandera.status = false;
+    }else{
+      var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
+      bandera.info_id = newInfoID;
+    }
   }else{
-    var newInfoID = await frmGuardarConPromesa($('#form-dinamico-rechazo').find('form'));
-    bandera.info_id = newInfoID;
+    bandera.status = false;
   }
   return new Promise((resolve) => {resolve(bandera)});
 }
@@ -88,7 +90,7 @@ async	function cerrarTarea() {
 
   if(!rsp.status) {
     wc();
-    error('Error','Se produjo un error al guardar el formulario asociado.');
+    error('Oops...','Debes completar los campos obligatorios (*)');
     return;
   }
 
