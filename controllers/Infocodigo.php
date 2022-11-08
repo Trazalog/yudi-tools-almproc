@@ -59,13 +59,21 @@ class Infocodigo extends CI_Controller {
 
 	/**
 	*	Obtiene y devuelve datos para reimpresion
-	* @param int infoid
+	* @param int petr_id; info_id
 	* @return array con datos mapeado para dibujar modal y codigo QR
 	*/
-	function mapeoDatos($infoid)
-	{
-		$data= $this->Infocodigos->getDataYudica($infoid);
-		foreach ($data as $value) {
+	function mapeoDatos($petr_id,$info_id){
+		$this->load->model(BPM.'Pedidotrabajos');
+		$forms = $this->Pedidotrabajos->getFormularios($petr_id)['data'][0]->forms->form;
+		$i = 0;
+		while ($i < count($forms)) {
+			if(strpos($forms[$i]->nom_tarea, "Embandado")){
+				$info_id_embandado = $forms[$i]->info_id;
+			}
+			++$i;
+		}
+		$dataPedido = $this->Infocodigos->getDataYudica($info_id);
+		foreach ($dataPedido as $value) {
 			switch ($value->name) {
 				case 'zona':
 					$datos['Zona'] = $value->valor;
@@ -96,6 +104,26 @@ class Infocodigo extends CI_Controller {
 					break;
 				default:
 					break;
+			}
+		}
+		#Si ya paso por embandado, uso los valores de ese formulario
+		if(!empty($info_id_embandado)){
+			$dataEmbandado = $this->Infocodigos->getDataYudica($info_id_embandado);
+			foreach ($dataEmbandado as $value) {
+				switch ($value->name) {
+					case 'marca':
+						$valor= $value->valor;
+						$resultado_str = str_replace(empresa()."-marca_yudica", "", $valor);	
+						$datos['Marca'] = $resultado_str;
+						break;
+					case 'tipo_banda':
+						$valor= $value->valor;
+						$resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
+						$datos['Banda'] = $resultado_str;
+						break;
+					default:
+						break;
+				}
 			}
 		}
 		echo json_encode($datos);
