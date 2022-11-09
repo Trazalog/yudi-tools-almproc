@@ -41,37 +41,9 @@ class Infocodigo extends CI_Controller {
 	* @param array con datos para modal
 	* @return view
 	*/
-	function pedidoTrabajoFinal(){
-		$this->load->model(BPM.'Pedidotrabajos');
+	function pedidoTrabajoFinal()
+	{
 		$data = $this->input->post();
-		$forms = $this->Pedidotrabajos->getFormularios($data['N_orden'])['data'][0]->forms->form;
-		$i = 0;
-		while ($i < count($forms)) {
-			if(strpos($forms[$i]->nom_tarea, "Embandado")){
-				$info_id_embandado = $forms[$i]->info_id;
-			}
-			++$i;
-		}		
-		#Si ya paso por embandado, uso los valores de ese formulario
-		if(!empty($info_id_embandado)){
-			$dataEmbandado = $this->Infocodigos->getDataYudica($info_id_embandado);
-			foreach ($dataEmbandado as $value) {
-				switch ($value->name) {
-					case 'marca':
-						$valor= $value->valor;
-						$resultado_str = str_replace(empresa()."-marca_yudica", "", $valor);	
-						$data['Marca'] = $resultado_str;
-						break;
-					case 'tipo_banda':
-						$valor= $value->valor;
-						$resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
-						$data['Banda'] = $resultado_str;
-						break;
-					default:
-						break;
-				}
-			}
-		}
 		$this->load->view('codigos/qr_pintado_final', $data);
 	}
 
