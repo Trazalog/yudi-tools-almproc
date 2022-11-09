@@ -121,6 +121,11 @@ class Infocodigo extends CI_Controller {
 						$resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
 						$datos['Banda'] = $resultado_str;
 						break;
+					case 'medida':
+						$valor= $value->valor;
+						$resultado_str = str_replace(empresa()."-medidas_yudica", "", $valor);	
+						$datos['Medida'] = $resultado_str;
+						break;
 					default:
 						break;
 				}

@@ -181,6 +181,11 @@ class Yudiproctareas extends CI_Model
                                     $resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
                                     $data['Banda'] = $resultado_str;
                                     break;
+                                case 'medida':
+                                    $valor= $value->valor;
+                                    $resultado_str = str_replace(empresa()."-medidas_yudica", "", $valor);	
+                                    $data['Medida'] = $resultado_str;
+                                    break;
                                 default:
                                     break;
                             }
