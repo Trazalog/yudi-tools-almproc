@@ -94,7 +94,7 @@ class Yudiproctareas extends CI_Model
     {
         $case_id = $tarea->caseId;
 
-        $aux = $ci->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
+        $aux = $this->rest->callAPI("GET",REST_PRO."/pedidoTrabajo/xcaseid/".$case_id);
         $data_generico =json_decode($aux["data"]);
         $aux = $data_generico->pedidoTrabajo;
         return $aux;
@@ -156,14 +156,48 @@ class Yudiproctareas extends CI_Model
 
               //paso 6
                 case 'Pintado y acabado final':
- 
+                    $this->load->model(BPM.'Pedidotrabajos');
+                    $tareaData = $this->getXCaseId($tarea);
+                    $forms = $this->Pedidotrabajos->getFormularios($tareaData->petr_id)['data'][0]->forms->form;
+                    $i = 0;
+                    while ($i < count($forms)) {
+                        if(strpos($forms[$i]->nom_tarea, "Embandado")){
+                            $info_id_embandado = $forms[$i]->info_id;
+                        }
+                        ++$i;
+                    }		
+                    #Si ya paso por embandado, uso los valores de ese formulario
+                    if(!empty($info_id_embandado)){
+                        $dataEmbandado = $this->getDataYudica($info_id_embandado);
+                        foreach ($dataEmbandado as $value) {
+                            switch ($value->name) {
+                                case 'marca':
+                                    $valor= $value->valor;
+                                    $resultado_str = str_replace(empresa()."-marca_yudica", "", $valor);	
+                                    $data['Marca'] = $resultado_str;
+                                    break;
+                                case 'tipo_banda':
+                                    $valor= $value->valor;
+                                    $resultado_str = str_replace(empresa()."-banda_yudica", "", $valor);	
+                                    $data['Banda'] = $resultado_str;
+                                    break;
+                                case 'medida':
+                                    $valor= $value->valor;
+                                    $resultado_str = str_replace(empresa()."-medidas_yudica", "", $valor);	
+                                    $data['Medida'] = $resultado_str;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
                          
-                         return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_pintado_final', $data, true);
+                    return $this->load->view(YUDIPROC . 'tareas/pedido_reparacion_neumaticos/view_pintado_final', $data, true);
 
-                         log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
-              
-             
-                         break;   
+                    log_message('DEBUG', 'YUDI Reparacion view-Pintado y acabado final->' . $tarea->nombreTarea);
+        
+        
+                    break;   
 
               //paso 7           
                 case 'Despacho':
@@ -445,6 +479,18 @@ case 'Despacho':
                 break;
         }
     }
-
+        /**
+		* Obtiene los datos del formulario recibido por parametro
+		* @param integer $info_id
+		* @return array items de la instancia del formulario
+		*/
+		function getDataYudica($infoid)
+		{
+			$aux = $this->rest->callAPI("GET",REST_FRM."/formulario/".$infoid);
+		
+			$aux =json_decode($aux["data"]);
+			log_message('DEBUG', '#Model YUDICA -Infocodigo- getDataYudica >>  | $infoid: ' .json_encode($infoid));
+			return $aux->formulario->items->item;
+		}
    
 }
