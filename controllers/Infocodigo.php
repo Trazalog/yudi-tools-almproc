@@ -102,6 +102,11 @@ class Infocodigo extends CI_Controller {
 				case 'tipt_id':
 					$datos['Trabajo'] = $value->valor;
 					break;
+				case 'prioridad_yudica':
+					$valor= $value->valor;
+					$resultado_str = str_replace(empresa()."-prioridad_yudica", "", $valor);	
+					$datos['Prioridad'] = $resultado_str;
+					break;
 				default:
 					break;
 			}
