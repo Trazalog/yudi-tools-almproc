@@ -1,33 +1,51 @@
 <style>
 #numero_orden{
-  margin-top: -1%;
-  font-size: 60px ;
+  font-size: 70px;
+  float: left;
+  margin-top:-30%;
+  height:60px;
+  width: 140px; 
 }
 #imagenYudi{
-  width: 100px;
-  height: 50px;
+  width: 160px;
+  height: 60px;
+  float:left;
+  margin-top:-45%;
+  margin-left:-90%;
 }   
 #tabla  {
-  border: 1px solid #000 ;
-  font-size: 16px ;
+  border: 1px solid #000;
+  width:100%;
+  font-size: 18px ;
 }
 #contenedorCodigo{
-  text-align: center;
+  float:right;
+  margin-top:-1%;
+  margin-right: -1px;
+  height:120px;
+  width:130px;
+}
+#cliente{
+  font-size: 24px;
 }
 </style>
 <div class='row'>
-	<div id="numOrdenEtiquetaFinal" class='col-md-6 col-sm-6 col-xs-6'>
+	<div id="numOrdenEtiquetaPedidoTrabajo" class='col-md-6 col-sm-6 col-xs-6'>
 		<p id='numero_orden'><?php echo " ".$N_orden; ?></p>
 	</div>
 	<div class='col-md-6 col-sm-6 col-xs-6' id='contenedorImagenYudiPedidoTrabajo'>
 		<img src="<?php echo base_url() ?>imagenes/yudica/logoYudica.png" alt="YUDICA NEUMATICOS" id='imagenYudi'>
 	</div>
   <div id="contenedorTablaPedidoTrabajo" class='col-md-12 col-sm-12'>	
-    <table class="table table-hover table-bordered table-sm" id="tabla">
+    <table class="table table-hover table-bordered" id="tabla">
       <tbody>
+      <tr>
+          <td class='thead-dark'><strong>Fecha inicio</strong></td>
+          <td class='thead-dark'><strong><?php echo $Fecha_inicio ?></strong></td>
+        </tr>
         <tr>
           <td class='thead-dark'><strong>Cliente</strong></td>
-          <td class='thead-dark'><strong><p><?php echo $Cliente ?></p></strong></td>
+          <td class='thead-dark' id="cliente"><strong><p><?php echo $Cliente ?></p></strong></td>
         </tr>
         <tr>	
           <td class='thead-dark'><strong>Zona</strong></td>
@@ -56,6 +74,14 @@
         <tr>
           <td class='thead-dark'><strong>Cantidad</strong></td>
           <td class='thead-dark'><strong><?php echo $Num ?></strong></td>
+        </tr>
+        <tr>
+          <td class='thead-dark'><strong>Prioridad</strong></td>
+          <td class='thead-dark'><strong><?php echo $Prioridad ?></strong></td>
+        </tr>
+        <tr>
+          <td class='thead-dark'><strong>Pedido Tango</strong></td>
+          <td class='thead-dark'><strong><?php echo $int_pedi_id?></strong></td>
         </tr>
       </tbody>
     </table>
