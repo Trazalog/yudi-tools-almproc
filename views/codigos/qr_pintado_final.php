@@ -26,6 +26,11 @@
   border: 1px solid #000 ;
   font-size: 25px;
 }
+#codigoImage{
+    width: 100%;
+    height: 100%;
+  }
+
 #cliente_etiquetaFin{
     font-size: 30px;
 }

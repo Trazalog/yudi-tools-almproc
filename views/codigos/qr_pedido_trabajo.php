@@ -1,18 +1,19 @@
 <style>
 #numero_orden{
-  font-size: 70px;
+   font-size: 40px;
   float: left;
-  margin-top:-30%;
-  height:60px;
-  width: 140px; 
+  margin-top:-15%;
+  height:50px;
+  width: 100px;
+  margin-bottom:10%;
 }
 #imagenYudi{
-  width: 160px;
-  height: 60px;
+    width: 110px;
+  height: 40px;
   float:left;
-  margin-top:-45%;
-  margin-left:-90%;
-}   
+  margin-top:-30%;
+  margin-left:-110%;
+}
 #tabla  {
   border: 1px solid #000;
   width:100%;
@@ -20,13 +21,13 @@
 }
 #contenedorCodigo{
   float:right;
-  margin-top:-1%;
-  margin-right: -1px;
-  height:120px;
-  width:130px;
+  margin-top:3%;
+  margin-right:10%;
+  height:90px;
+  width:100px;
 }
 #cliente{
-  font-size: 24px;
+  font-size: 18px;
 }
 </style>
 <div class='row'>
