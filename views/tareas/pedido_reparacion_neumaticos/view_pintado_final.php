@@ -203,7 +203,7 @@ async function cerrarTarea() {
               arraydatos.Marca = (_isset($('#marcaEmbandado').val())) ? $('#marcaEmbandado').val() : $('select[name="marca_yudica"]').select2('data')[0].text;
               arraydatos.Serie = $('#num_serie').val();
               arraydatos.Num = $('#num_cubiertas').val();
-			 
+			  arraydatos.fec_entrega = $('#fec_entrega').val();
 			  arraydatos.Zona = $('#zona').val();
               arraydatos.Trabajo = $('#tipo_proyecto').val();
               arraydatos.Banda = (_isset($('#bandaEmbandado').val())) ? $('#bandaEmbandado').val() : $('select[name="banda_yudica"]').select2('data')[0].text;
