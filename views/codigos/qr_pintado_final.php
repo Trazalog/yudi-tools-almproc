@@ -50,7 +50,7 @@
       <tbody>
         <tr>	
           <td class='thead-dark'><strong>Fecha Fin</strong></td>
-          <td class='thead-dark'><strong><?php echo $Fecha_entrega ?></strong></td>
+          <td class='thead-dark'><strong><?php echo $fec_entrega ?></strong></td>
         </tr>
         <tr>
           <td><strong>Cliente</strong></td>
