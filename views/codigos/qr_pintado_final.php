@@ -26,6 +26,11 @@
   border: 1px solid #000 ;
   font-size: 25px;
 }
+#codigoImage{
+    width: 100%;
+    height: 100%;
+  }
+
 #cliente_etiquetaFin{
     font-size: 30px;
 }
@@ -45,7 +50,8 @@
       <tbody>
         <tr>	
           <td class='thead-dark'><strong>Fecha Fin</strong></td>
-          <td class='thead-dark'><strong><?php echo $Fecha_entrega ?></strong></td>
+         
+          <td class='thead-dark' id="fec_entrega"><strong><?php echo $fechaFormateada?></strong></td>
         </tr>
         <tr>
           <td><strong>Cliente</strong></td>
