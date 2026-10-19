@@ -44,7 +44,7 @@ async function cerrarTarea() {
         processData: false,
         url: '<?php base_url() ?>index.php/<?php echo BPM ?>Proceso/cerrarTarea/' + id,
         success: function(data) {
-                var fun = () => {linkTo('<?php echo BPM ?>Proceso/');}
+                var fun = () => {linkTo('<?php echo BPM ?>Proceso2/');}
                 confRefresh(fun);
             },
             error: function(data) {
