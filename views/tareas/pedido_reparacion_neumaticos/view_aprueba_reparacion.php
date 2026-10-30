@@ -109,12 +109,28 @@ input[type=radio]{
   }
 
   getFormData();
+  initForm();
+  detectarForm();
+
+   // Deshabilita "Hecho" hasta que carguen los formularios dinámicos
+  $(function () {
+    var frmCargados = function () {
+      return $.trim($('#form-dinamico').html()) !== '' &&
+             $.trim($('#form-dinamico-rechazo').html()) !== '';
+    };
+
+    $('#btnHecho').prop('disabled', !frmCargados());
+
+    $(document).on('ajaxComplete', function () {
+      if ($('#btnHecho').prop('disabled') && frmCargados()) {
+        $('#btnHecho').prop('disabled', false);
+      }
+    });
+  });
 
   function mostrarForm(){
-
-      detectarForm();
-      initForm();
-
+  //initForm();
+  //detectarForm();
       $('#form-dinamico').show();
       $('#titulo').show();
       $('#form-dinamico-rechazo').hide();
@@ -124,10 +140,8 @@ input[type=radio]{
   }
 
   function ocultarForm(){
-
-    detectarForm();
-    initForm();
-
+  //initForm();
+  //detectarForm();
      // $('#motivo').show();
       $('#form-dinamico-rechazo').show();
     
@@ -144,7 +158,7 @@ input[type=radio]{
   $('#titulo').hide();
   $('#comprobante').hide();
    // $('#motivo').show();
-   $('#form-dinamico-rechazo').show();
+   $('#form-dinamico-rechazo').hide();
 
   $('#btnImpresion').hide();
 
